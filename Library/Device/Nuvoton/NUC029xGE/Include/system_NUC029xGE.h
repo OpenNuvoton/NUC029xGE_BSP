@@ -1,16 +1,16 @@
 /**************************************************************************//**
- * @file     system_NUC126.h
+ * @file     system_NUC092xGE.h
  * @version  V3.00
  * $Revision: 5 $
  * $Date: 16/10/25 4:25p $
  * @brief    NUC029xGE Series System Setting Header File
  *
  * @note
- * Copyright (C) 2016 Nuvoton Technology Corp. All rights reserved.
+ * Copyright (C) 2018 Nuvoton Technology Corp. All rights reserved.
  *
  ******************************************************************************/
-#ifndef __SYSTEM_NUC126_H__
-#define __SYSTEM_NUC126_H__
+#ifndef __SYSTEM_NUC029xGE_H__
+#define __SYSTEM_NUC029xGE_H__
 
 #ifdef __cplusplus
 extern "C" {
@@ -98,4 +98,4 @@ extern void SystemCoreClockUpdate(void);
 
 #endif
 
-/* Copyright (C) 2014 Nuvoton Technology Corp. All rights reserved. */
+/* Copyright (C) 2018 Nuvoton Technology Corp. All rights reserved. */

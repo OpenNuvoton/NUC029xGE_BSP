@@ -3,7 +3,7 @@
  * @brief    NUC029xGE series USB mass storage header file
  *
  * @note
- * Copyright (C) 2016 Nuvoton Technology Corp. All rights reserved.
+ * Copyright (C) 2018 Nuvoton Technology Corp. All rights reserved.
  ******************************************************************************/
 #ifndef __USBD_MASS_H__
 #define __USBD_MASS_H__
@@ -57,7 +57,7 @@ static __INLINE uint32_t get_be32(uint8_t *buf)
 /******************************************************************************/
 /*                USBD Mass Storage Structure                                 */
 /******************************************************************************/
-/** @addtogroup NUC126_USBD_Mass_Exported_Struct NUC029xGE USBD Mass Exported Struct
+/** @addtogroup USBD_Mass_Exported_Struct NUC029xGE USBD Mass Exported Struct
   NUC029xGE USBD Mass Specific Struct
   @{
 */
@@ -120,4 +120,4 @@ void MSC_ProcessCmd(void);
 
 #endif  /* __USBD_MASS_H_ */
 
-/*** (C) COPYRIGHT 2016 Nuvoton Technology Corp. ***/
+/*** (C) COPYRIGHT 2018 Nuvoton Technology Corp. ***/

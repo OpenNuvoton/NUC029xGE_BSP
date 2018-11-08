@@ -6,7 +6,7 @@
  * @brief    NUC029xGE Series Peripheral Access Layer Header File
  *
  * @note
- * Copyright (C) 2016 Nuvoton Technology Corp. All rights reserved.
+ * Copyright (C) 2018 Nuvoton Technology Corp. All rights reserved.
  *
  ******************************************************************************/
 
@@ -26,11 +26,11 @@
   *
   * <b>Copyright Notice</b>
   *
-  * Copyright (C) 2016 Nuvoton Technology Corp. All rights reserved.
+  * Copyright (C) 2018 Nuvoton Technology Corp. All rights reserved.
   */
 
-#ifndef __NUC126_H__
-#define __NUC126_H__
+#ifndef __NUC029xGE_H__
+#define __NUC029xGE_H__
 
 
 /*
@@ -17579,7 +17579,7 @@ typedef volatile unsigned short vu16;
 #include "usci_i2c.h"
 #endif
 
-/* Copyright (C) 2016 Nuvoton Technology Corp. All rights reserved. */
+/* Copyright (C) 2018 Nuvoton Technology Corp. All rights reserved. */
 
 
 

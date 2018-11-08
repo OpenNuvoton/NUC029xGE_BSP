@@ -16,7 +16,7 @@
         <TargetCommonOption>
           <Device>NUC029SGE</Device>
           <Vendor>Nuvoton</Vendor>
-          <Cpu>IRAM(0x20000000-0x20004FFF) IROM(0-0x3FFFF) CLOCK(72000000) CPUTYPE("Cortex-M0")</Cpu>
+          <Cpu>IRAM(0x20000000-0x20004FFF) IROM(0-0x3FFFF) CLOCK(CLOCK(72000000)) CPUTYPE("Cortex-M0")</Cpu>
           <FlashUtilSpec></FlashUtilSpec>
           <StartupFile>undefined</StartupFile>
           <FlashDriverDll></FlashDriverDll>
