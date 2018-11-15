@@ -110,9 +110,9 @@ void SYS_Init(void)
     SYS->GPD_MFPL &= ~(SYS_GPD_MFPL_PD6MFP_Msk);
     SYS->GPD_MFPL |= SYS_GPD_MFPL_PD6MFP_ACMP0_O;
 
-    /* Set PD multi-function pins for UART0 RXD and TXD */
-    SYS->GPD_MFPL &= ~(SYS_GPD_MFPL_PD0MFP_Msk | SYS_GPD_MFPL_PD1MFP_Msk);
-    SYS->GPD_MFPL |= (SYS_GPD_MFPL_PD0MFP_UART0_RXD | SYS_GPD_MFPL_PD1MFP_UART0_TXD);
+    /* Set multi-function pins for UART0 RXD and TXD */
+    SYS->GPA_MFPL &= ~(SYS_GPA_MFPL_PA2MFP_Msk | SYS_GPA_MFPL_PA3MFP_Msk);
+    SYS->GPA_MFPL |= (SYS_GPA_MFPL_PA3MFP_UART0_RXD | SYS_GPA_MFPL_PA2MFP_UART0_TXD);
 
     /* Disable digital input path of analog pin ACMP0_P to prevent leakage */
     PB->DINOFF |= (1 << GPIO_DINOFF_DINOFF7_Pos);
@@ -125,6 +125,7 @@ void UART_Init(void)
     UART0->LINE = UART_WORD_LEN_8 | UART_PARITY_NONE | UART_STOP_BIT_1;
     /* UART peripheral clock rate 12MHz; UART bit rate 115200 bps. */
     UART0->BAUD = UART_BAUD_MODE2 | UART_BAUD_MODE2_DIVIDER(__HXT, 115200);
+    
 }
 
 /*** (C) COPYRIGHT 2016 Nuvoton Technology Corp. ***/
