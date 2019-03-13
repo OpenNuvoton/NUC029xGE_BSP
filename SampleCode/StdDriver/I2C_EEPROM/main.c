@@ -183,9 +183,10 @@ void SYS_Init(void)
     SYS->GPA_MFPL &= ~(SYS_GPA_MFPL_PA2MFP_Msk | SYS_GPA_MFPL_PA3MFP_Msk);
     SYS->GPA_MFPL |= (SYS_GPA_MFPL_PA3MFP_UART0_RXD | SYS_GPA_MFPL_PA2MFP_UART0_TXD);
 
-    /* Set PD multi-function pins for I2C0 SDA and SCL */
-    SYS->GPD_MFPL &= ~(SYS_GPD_MFPL_PD4MFP_Msk | SYS_GPD_MFPL_PD5MFP_Msk);
-    SYS->GPD_MFPL |= (SYS_GPD_MFPL_PD4MFP_I2C0_SDA | SYS_GPD_MFPL_PD5MFP_I2C0_SCL);
+    /* Set PE multi-function pins for I2C0 SDA and SCL */
+    SYS->GPE_MFPH &= ~(SYS_GPE_MFPH_PE13MFP_Msk | SYS_GPE_MFPH_PE12MFP_Msk);
+    SYS->GPE_MFPH |= (SYS_GPE_MFPH_PE13MFP_I2C0_SDA | SYS_GPE_MFPH_PE12MFP_I2C0_SCL);
+
 }
 
 void UART0_Init()
@@ -261,7 +262,7 @@ int32_t main(void)
 
     printf("Configure I2C0 as a master.\n");
     printf("The I/O connection for I2C0:\n");
-    printf("I2C0_SDA(PD.4), I2C0_SCL(PD.5)\n");
+    printf("I2C0_SDA(PE.13), I2C0_SCL(PE.12)\n");
 
     /* Init I2C0 to access EEPROM */
     I2C0_Init();
