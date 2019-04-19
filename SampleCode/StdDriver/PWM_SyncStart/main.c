@@ -83,9 +83,9 @@ void SYS_Init(void)
     /*---------------------------------------------------------------------------------------------------------*/
     /* Init I/O Multi-function                                                                                 */
     /*---------------------------------------------------------------------------------------------------------*/
-    /* Set PD multi-function pins for UART0 RXD and TXD */
-    SYS->GPD_MFPL &= ~(SYS_GPD_MFPL_PD0MFP_Msk | SYS_GPD_MFPL_PD1MFP_Msk);
-    SYS->GPD_MFPL |= (SYS_GPD_MFPL_PD0MFP_UART0_RXD | SYS_GPD_MFPL_PD1MFP_UART0_TXD);
+    /* Set multi-function pins for UART0 RXD and TXD */
+    SYS->GPA_MFPL &= ~(SYS_GPA_MFPL_PA2MFP_Msk | SYS_GPA_MFPL_PA3MFP_Msk);
+    SYS->GPA_MFPL |= (SYS_GPA_MFPL_PA3MFP_UART0_RXD | SYS_GPA_MFPL_PA2MFP_UART0_TXD);
 
     /* Set PC multi-function pins for PWM0 Channel0~5 */
     SYS->GPC_MFPL &= ~(SYS_GPC_MFPL_PC0MFP_Msk | SYS_GPC_MFPL_PC1MFP_Msk |
@@ -95,13 +95,13 @@ void SYS_Init(void)
                       SYS_GPC_MFPL_PC2MFP_PWM0_CH2 | SYS_GPC_MFPL_PC3MFP_PWM0_CH3 |
                       SYS_GPC_MFPL_PC4MFP_PWM0_CH4 | SYS_GPC_MFPL_PC5MFP_PWM0_CH5);
 
-    /* Set PA and PC multi-function pins for PWM1 Channel0~5 */
+    /* Set PC multi-function pins for PWM1 Channel0~5 */
     SYS->GPC_MFPL &= ~(SYS_GPC_MFPL_PC6MFP_Msk | SYS_GPC_MFPL_PC7MFP_Msk);
     SYS->GPC_MFPL |= (SYS_GPC_MFPL_PC6MFP_PWM1_CH0 | SYS_GPC_MFPL_PC7MFP_PWM1_CH1);
-    SYS->GPA_MFPL &= ~(SYS_GPA_MFPL_PA3MFP_Msk | SYS_GPA_MFPL_PA2MFP_Msk |
-                       SYS_GPA_MFPL_PA1MFP_Msk | SYS_GPA_MFPL_PA0MFP_Msk);
-    SYS->GPA_MFPL |= (SYS_GPA_MFPL_PA3MFP_PWM1_CH2 | SYS_GPA_MFPL_PA2MFP_PWM1_CH3 |
-                      SYS_GPA_MFPL_PA1MFP_PWM1_CH4 | SYS_GPA_MFPL_PA0MFP_PWM1_CH5);
+    SYS->GPC_MFPH &= ~(SYS_GPC_MFPH_PC11MFP_Msk | SYS_GPC_MFPH_PC12MFP_Msk |
+                       SYS_GPC_MFPH_PC13MFP_Msk | SYS_GPC_MFPH_PC14MFP_Msk);
+    SYS->GPC_MFPH |= (SYS_GPC_MFPH_PC11MFP_PWM1_CH2 | SYS_GPC_MFPH_PC12MFP_PWM1_CH3 |
+                      SYS_GPC_MFPH_PC13MFP_PWM1_CH4 | SYS_GPC_MFPH_PC14MFP_PWM1_CH5);
 }
 
 void UART0_Init()
@@ -150,7 +150,7 @@ int32_t main(void)
     printf("  This sample code will output waveform with PWM0 and PWM1 channel 0~5 at the same time.\n");
     printf("  I/O configuration:\n");
     printf("    waveform output pin: PWM0_CH0(PC.0), PWM0_CH1(PC.1), PWM0_CH2(PC.2), PWM0_CH3(PC.3), PWM0_CH4(PC.4), PWM0_CH5(PC.5)\n");
-    printf("                         PWM1_CH0(PC.6), PWM1_CH1(PC.7), PWM1_CH2(PA.3), PWM1_CH3(PA.2), PWM1_CH4(PA.1), PWM1_CH5(PA.0)\n");
+    printf("                         PWM1_CH0(PC.6), PWM1_CH1(PC.7), PWM1_CH2(PC.11), PWM1_CH3(PC.12), PWM1_CH4(PC.13), PWM1_CH5(PC.14)\n");
 
 
     /* PWM0 and PWM1 channel 0~5 frequency and duty configuration are as follows */
