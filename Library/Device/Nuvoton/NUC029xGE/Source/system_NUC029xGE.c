@@ -6,6 +6,7 @@
  * @brief    NUC029xGE Series System Setting Source File
  *
  * @note
+ * SPDX-License-Identifier: Apache-2.0
  * Copyright (C) 2016 Nuvoton Technology Corp. All rights reserved.
  *
  ******************************************************************************/

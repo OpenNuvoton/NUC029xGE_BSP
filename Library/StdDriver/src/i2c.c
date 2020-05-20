@@ -6,6 +6,7 @@
  * @brief    NUC029xGE series I2C Serial Interface Controller(I2C) driver source file
  *
  * @note
+ * SPDX-License-Identifier: Apache-2.0
  * Copyright (C) 2016 Nuvoton Technology Corp. All rights reserved.
  *****************************************************************************/
 #include "NUC029xGE.h"
