@@ -94,7 +94,7 @@ static __INLINE uint16_t get_be16(uint8_t * buf)
 /******************************************************************************/
 /*                USBD Mass Storage Structure                                 */
 /******************************************************************************/
-/** @addtogroup NUC126_USBD_Mass_Exported_Struct NUC029xGE USBD Mass Exported Struct
+/** @addtogroup NUC029xGE_USBD_Mass_Exported_Struct NUC029xGE USBD Mass Exported Struct
   NUC029xGE USBD Mass Specific Struct
   @{
 */
@@ -137,6 +137,7 @@ extern const unsigned char eprom[MSC_ImageSize];   /* Disk Image */
 
 extern uint32_t MassBlock[];
 extern uint32_t Storage_Block[];
+extern uint8_t volatile g_u8Suspend;
 
 #define MassCMD_BUF        ((uint32_t)&MassBlock[0])
 #define STORAGE_DATA_BUF   ((uint32_t)&Storage_Block[0])

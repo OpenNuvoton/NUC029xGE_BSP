@@ -19,6 +19,9 @@
 #define HIRC48_AUTO_TRIM    0x412   /* Use USB signal to fine tune HIRC 48MHz */
 #define TRIM_INIT           (SYS_BASE+0x118)
 
+uint8_t volatile g_u8RemouteWakeup = 0;
+int IsDebugFifoEmpty(void);
+
 void SYS_Init(void)
 {
 
@@ -35,7 +38,7 @@ void SYS_Init(void)
     /* Switch HCLK clock source to Internal RC and HCLK source divide 1 */
     CLK_SetHCLK(CLK_CLKSEL0_HCLKSEL_HIRC, CLK_CLKDIV0_HCLK(1));
 
-#ifndef CRYSTAL_LESS
+#if (!CRYSTAL_LESS)
     /* Enable external XTAL 12 MHz clock */
     CLK_EnableXtalRC(CLK_PWRCTL_HXTEN_Msk);
 
@@ -77,8 +80,8 @@ void SYS_Init(void)
     /* Init I/O Multi-function                                                                                 */
     /*---------------------------------------------------------------------------------------------------------*/
 
-    /* Set multi-function pins for UART0 RXD and TXD */
-    SYS->GPA_MFPL &= ~(SYS_GPA_MFPL_PA2MFP_Msk | SYS_GPA_MFPL_PA3MFP_Msk);
+    /* Set PA multi-function pins for UART0 RXD and TXD */
+    SYS->GPA_MFPL &= ~(SYS_GPA_MFPL_PA3MFP_Msk | SYS_GPA_MFPL_PA2MFP_Msk);
     SYS->GPA_MFPL |= (SYS_GPA_MFPL_PA3MFP_UART0_RXD | SYS_GPA_MFPL_PA2MFP_UART0_TXD);
 }
 
@@ -114,8 +117,46 @@ void GPIO_Init(void)
 void GPCDEF_IRQHandler(void)
 {
     PC->INTSRC = 0x3f;
+    g_u8RemouteWakeup = 1;
     //PB4 ^= 1;
 
+}
+
+void PowerDown()
+{
+    /* Unlock protected registers */
+    SYS_UnlockReg();
+
+    printf("Enter power down ...\n");
+    while(!IsDebugFifoEmpty());
+
+    /* Wakeup Enable */
+    USBD_ENABLE_INT(USBD_INTEN_WKEN_Msk);
+
+    CLK_PowerDown();
+
+    /* Clear PWR_DOWN_EN if it is not clear by itself */
+    if(CLK->PWRCTL & CLK_PWRCTL_PDEN_Msk)
+        CLK->PWRCTL ^= CLK_PWRCTL_PDEN_Msk;
+
+    /* Note HOST to resume USB tree if it is suspended and remote wakeup enabled */
+    if(g_usbd_RemoteWakeupEn && g_u8RemouteWakeup)
+    {
+        /* Enable PHY before sending Resume('K') state */
+        USBD->ATTR |= USBD_ATTR_PHYEN_Msk;
+
+        /* Keep remote wakeup for 1 ms */
+        USBD->ATTR |= USBD_ATTR_RWAKEUP_Msk;
+        CLK_SysTickDelay(1000); /* Delay 1ms */
+        USBD->ATTR ^= USBD_ATTR_RWAKEUP_Msk;
+        g_u8RemouteWakeup = 0;
+        printf("Remote Wakeup!!\n");
+    }
+
+    printf("device wakeup!\n");
+
+    /* Lock protected registers */
+    SYS_LockReg();
 }
 
 /*---------------------------------------------------------------------------------------------------------*/
@@ -123,7 +164,9 @@ void GPCDEF_IRQHandler(void)
 /*---------------------------------------------------------------------------------------------------------*/
 int32_t main(void)
 {
+#if CRYSTAL_LESS
     uint32_t u32TrimInit;
+#endif
 
     /* Unlock protected registers */
     SYS_UnlockReg();
@@ -154,7 +197,7 @@ int32_t main(void)
     /* Enable USB device interrupt */
     NVIC_EnableIRQ(USBD_IRQn);
 
-#ifdef CRYSTAL_LESS
+#if CRYSTAL_LESS
     /* Backup default trim */
     u32TrimInit = M32(TRIM_INIT);
 #endif
@@ -166,7 +209,7 @@ int32_t main(void)
     PB4 = 0; // LED to show system is on line
     while(1)
     {
-#ifdef CRYSTAL_LESS
+#if CRYSTAL_LESS
         /* Start USB trim if it is not enabled. */
         if((SYS->IRCTCTL1 & SYS_IRCTCTL1_FREQSEL_Msk) != 2)
         {
@@ -197,6 +240,15 @@ int32_t main(void)
             USBD->INTSTS = USBD_INTSTS_SOFIF_Msk;
         }
 #endif
+
+        /* Enter power down when USB suspend */
+        if(g_u8Suspend)
+        {
+            PowerDown();
+
+            /* Waiting for key release */
+            while((GPIO_GET_IN_DATA(PC) & 0x3F) != 0x3F);
+        }
 
         HID_UpdateMouseData();
     }

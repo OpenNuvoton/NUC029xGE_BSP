@@ -9,6 +9,8 @@
 #include  "NUC029xGE.h"
 #include  "micro_printer.h"
 
+uint32_t volatile g_u32OutToggle = 0;
+uint8_t volatile g_u8Suspend = 0;
 
 /*--------------------------------------------------------------------------*/
 void USBD_IRQHandler(void)
@@ -52,9 +54,14 @@ void USBD_IRQHandler(void)
             /* Bus reset */
             USBD_ENABLE_USB();
             USBD_SwReset();
+            g_u32OutToggle = 0;
+            g_u8Suspend = 0;
         }
         if(u32State & USBD_STATE_SUSPEND)
         {
+            /* Enter power down to wait USB attached */
+            g_u8Suspend = 1;
+
             /* Enable USB but disable PHY */
             USBD_DISABLE_PHY();
         }
@@ -62,6 +69,7 @@ void USBD_IRQHandler(void)
         {
             /* Enable USB and enable PHY */
             USBD_ENABLE_USB();
+            g_u8Suspend = 0;
         }
     }
 
@@ -111,8 +119,16 @@ void USBD_IRQHandler(void)
         {
             /* Clear event flag */
             USBD_CLR_INT_FLAG(USBD_INTSTS_EP3);
-            // Bulk Out -> receive printer data
-            PTR_Data_Receive();
+            if(g_u32OutToggle == (USBD->EPSTS & USBD_EPSTS_EPSTS3_Msk))
+            {
+                USBD_SET_PAYLOAD_LEN(EP3, EP3_MAX_PKT_SIZE);
+            }
+            else
+            {
+                // Bulk Out -> receive printer data
+                PTR_Data_Receive();
+                g_u32OutToggle = USBD->EPSTS & USBD_EPSTS_EPSTS3_Msk;
+            }
         }
 
         if(u32IntSts & USBD_INTSTS_EP4)

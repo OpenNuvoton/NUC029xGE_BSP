@@ -12,7 +12,9 @@
 #include "NUC029xGE.h"
 #include "VCOM_and_HID_Transfer.h"
 
-
+uint32_t volatile g_u32OutToggle = 0;
+uint8_t volatile g_u8Suspend = 0;
+uint8_t g_u8Idle = 0, g_u8Protocol = 0;
 
 void USBD_IRQHandler(void)
 {
@@ -55,9 +57,14 @@ void USBD_IRQHandler(void)
             /* Bus reset */
             USBD_ENABLE_USB();
             USBD_SwReset();
+            g_u32OutToggle = 0;
+            g_u8Suspend = 0;
         }
         if(u32State & USBD_STATE_SUSPEND)
         {
+            /* Enter power down to wait USB attached */
+            g_u8Suspend = 1;
+
             /* Enable USB but disable PHY */
             USBD_DISABLE_PHY();
         }
@@ -65,6 +72,7 @@ void USBD_IRQHandler(void)
         {
             /* Enable USB and enable PHY */
             USBD_ENABLE_USB();
+            g_u8Suspend = 0;
         }
     }
 
@@ -160,11 +168,19 @@ void EP2_Handler(void)
 void EP3_Handler(void)
 {
     /* Bulk OUT */
-    gu32RxSize = USBD_GET_PAYLOAD_LEN(EP3);
-    gpu8RxBuf = (uint8_t *)(USBD_BUF_BASE + USBD_GET_EP_BUF_ADDR(EP3));
+    if(g_u32OutToggle == (USBD->EPSTS & USBD_EPSTS_EPSTS3_Msk))
+    {
+        USBD_SET_PAYLOAD_LEN(EP3, EP3_MAX_PKT_SIZE);
+    }
+    else
+    {
+        gu32RxSize = USBD_GET_PAYLOAD_LEN(EP3);
+        gpu8RxBuf = (uint8_t *)(USBD_BUF_BASE + USBD_GET_EP_BUF_ADDR(EP3));
 
-    /* Set a flag to indicate bulk out ready */
-    gi8BulkOutReady = 1;
+        g_u32OutToggle = USBD->EPSTS & USBD_EPSTS_EPSTS3_Msk;
+        /* Set a flag to indicate bulk out ready */
+        gi8BulkOutReady = 1;
+    }
 }
 
 void EP7_Handler(void)  /* Interrupt IN handler */
@@ -263,12 +279,32 @@ void HID_ClassRequest(void)
                 break;
             }
             case GET_REPORT:
+//            {
+//                break;
+//            }
             case GET_IDLE:
+            {
+                USBD_SET_PAYLOAD_LEN(EP1, buf[6]);
+                /* Data stage */
+                USBD_PrepareCtrlIn(&g_u8Idle, buf[6]);
+                /* Status stage */
+                USBD_PrepareCtrlOut(0, 0);
+                break;
+            }
             case GET_PROTOCOL:
+            {
+                USBD_SET_PAYLOAD_LEN(EP1, buf[6]);
+                /* Data stage */
+                USBD_PrepareCtrlIn(&g_u8Protocol, buf[6]);
+                /* Status stage */
+                USBD_PrepareCtrlOut(0, 0);
+                break;
+            }
             default:
             {
                 /* Setup error, stall the device */
-                USBD_SetStall(0);
+                USBD_SetStall(EP0);
+                USBD_SetStall(EP1);
                 break;
             }
         }
@@ -319,17 +355,26 @@ void HID_ClassRequest(void)
             }
             case SET_IDLE:
             {
+                g_u8Idle = buf[3];
                 /* Status stage */
                 USBD_SET_DATA1(EP0);
                 USBD_SET_PAYLOAD_LEN(EP0, 0);
                 break;
             }
             case SET_PROTOCOL:
+            {
+                g_u8Protocol = buf[2];
+                /* Status stage */
+                USBD_SET_DATA1(EP0);
+                USBD_SET_PAYLOAD_LEN(EP0, 0);
+                break;
+            }
             default:
             {
                 // Stall
                 /* Setup error, stall the device */
-                USBD_SetStall(0);
+                USBD_SetStall(EP0);
+                USBD_SetStall(EP1);
                 break;
             }
         }
@@ -425,7 +470,7 @@ void VCOM_LineCoding(uint8_t port)
 #define SECTOR_SIZE      4096
 #define START_SECTOR     0x10
 
-typedef __packed struct
+typedef struct
 {
     uint8_t u8Cmd;
     uint8_t u8Size;
@@ -433,7 +478,7 @@ typedef __packed struct
     uint32_t u32Arg2;
     uint32_t u32Signature;
     uint32_t u32Checksum;
-} CMD_T;
+} __attribute__((packed)) CMD_T;
 
 CMD_T gCmd;
 
@@ -568,7 +613,7 @@ int32_t ProcessCommand(uint8_t *pu8Buffer, uint32_t u32BufferLen)
     if(gCmd.u32Signature != HID_CMD_SIGNATURE)
         return -1;
 
-    /* Calculate checksum & check it*/
+    /* Calculate checksum & check it */
     u32sum = CalCheckSum((uint8_t *)&gCmd, gCmd.u8Size);
     if(u32sum != gCmd.u32Checksum)
         return -1;
@@ -653,7 +698,7 @@ void HID_GetOutReport(uint8_t *pu8EpBuf, uint32_t u32Size)
     else
     {
         /* Check and process the command packet */
-        if(ProcessCommand(pu8EpBuf, u32Size))
+        if(ProcessCommand(pu8EpBuf, sizeof(gCmd)))
         {
             printf("Unknown HID command!\n");
         }

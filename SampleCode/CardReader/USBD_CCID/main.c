@@ -96,21 +96,21 @@ void SYS_Init(void)
     /*---------------------------------------------------------------------------------------------------------*/
     /* Init I/O Multi-function                                                                                 */
     /*---------------------------------------------------------------------------------------------------------*/
-    /* Set PD multi-function pins for UART0 RXD, TXD */
-    SYS->GPD_MFPL &= ~(SYS_GPD_MFPL_PD0MFP_Msk | SYS_GPD_MFPL_PD1MFP_Msk);
-    SYS->GPD_MFPL |= (SYS_GPD_MFPL_PD0MFP_UART0_RXD | SYS_GPD_MFPL_PD1MFP_UART0_TXD);
+    /* Set PA multi-function pins for UART0 RXD and TXD */
+    SYS->GPA_MFPL &= ~(SYS_GPA_MFPL_PA3MFP_Msk | SYS_GPA_MFPL_PA2MFP_Msk);
+    SYS->GPA_MFPL |= (SYS_GPA_MFPL_PA3MFP_UART0_RXD | SYS_GPA_MFPL_PA2MFP_UART0_TXD);
 
-    /* Set PA.0 ~ PA.3 and PB.2 for SC0 interface */
-    SYS->GPA_MFPL &= ~(SYS_GPA_MFPL_PA0MFP_Msk |
-                       SYS_GPA_MFPL_PA1MFP_Msk |
-                       SYS_GPA_MFPL_PA2MFP_Msk |
-                       SYS_GPA_MFPL_PA3MFP_Msk);
+    /* Set PC.0 ~ PC.3 and PB.2 for SC0 interface */
+    SYS->GPC_MFPL &= ~(SYS_GPC_MFPL_PC0MFP_Msk |
+                       SYS_GPC_MFPL_PC1MFP_Msk |
+                       SYS_GPC_MFPL_PC2MFP_Msk |
+                       SYS_GPC_MFPL_PC3MFP_Msk);
     SYS->GPB_MFPL &= ~SYS_GPB_MFPL_PB2MFP_Msk;
-    SYS->GPA_MFPL |= (SYS_GPA_MFPL_PA0MFP_SC0_CLK |
-                      SYS_GPA_MFPL_PA1MFP_SC0_DAT |
-                      SYS_GPA_MFPL_PA2MFP_SC0_RST |
-                      SYS_GPA_MFPL_PA3MFP_SC0_PWR);
-    SYS->GPB_MFPL |= SYS_GPB_MFPL_PB2MFP_SC0_nCD;
+    SYS->GPC_MFPL |= (SC0_DAT_PC0 |
+                      SC0_CLK_PC1 |
+                      SC0_RST_PC2 |
+                      SC0_PWR_PC3);
+    SYS->GPB_MFPL |= SC0_nCD_PB2;
 }
 
 /*---------------------------------------------------------------------------------------------------------*/
