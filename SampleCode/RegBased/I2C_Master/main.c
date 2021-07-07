@@ -200,6 +200,8 @@ void SYS_Init(void)
     SYS->GPE_MFPH &= ~(SYS_GPE_MFPH_PE13MFP_Msk | SYS_GPE_MFPH_PE12MFP_Msk);
     SYS->GPE_MFPH |= (SYS_GPE_MFPH_PE13MFP_I2C0_SDA | SYS_GPE_MFPH_PE12MFP_I2C0_SCL);
 
+    /* I2C pins enable schmitt trigger */
+    PE->SMTEN |= (GPIO_SMTEN_SMTEN12_Msk | GPIO_SMTEN_SMTEN13_Msk);
 }
 
 void UART0_Init(void)
