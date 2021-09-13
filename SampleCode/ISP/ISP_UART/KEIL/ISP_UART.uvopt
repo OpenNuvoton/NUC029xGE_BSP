@@ -10,7 +10,7 @@
     <aExt>*.s*; *.src; *.a*</aExt>
     <oExt>*.obj; *.o</oExt>
     <lExt>*.lib</lExt>
-    <tExt>*.txt; *.h; *.inc</tExt>
+    <tExt>*.txt; *.h; *.inc; *.md</tExt>
     <pExt>*.plm</pExt>
     <CppX>*.cpp</CppX>
     <nMigrate>0</nMigrate>
@@ -151,7 +151,7 @@
           <SizeOfObject>0</SizeOfObject>
           <BreakByAccess>0</BreakByAccess>
           <BreakIfRCount>1</BreakIfRCount>
-          <Filename>..\uart_transfer.c</Filename>
+          <Filename>D:\MCU\NUC1261_FA8273\NUC029xGE\bsp\SampleCode\CardReader\USBD_CCID\uart_transfer.c</Filename>
           <ExecCommand></ExecCommand>
           <Expression>\\NUC029xGE_ISP_UART0_PA3_PA2\../uart_transfer.c\25</Expression>
         </Bp>
