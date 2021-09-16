@@ -90,22 +90,22 @@ int32_t main(void)
 
     printf("\n\nCPU @ %d Hz\n", SystemCoreClock);
     printf("+-------------------------------------------------+\n");
-    printf("|    PB.2(Output) and PE.1(Input) Sample Code     |\n");
+    printf("|    PB.2(Output) and PE.11(Input) Sample Code    |\n");
     printf("+-------------------------------------------------+\n\n");
 
     /*-----------------------------------------------------------------------------------------------------*/
     /* GPIO Basic Mode Test --- Use Pin Data Input/Output to control GPIO pin                              */
     /*-----------------------------------------------------------------------------------------------------*/
-    printf("  >> Please connect PB.2 and PE.1 first << \n");
+    printf("  >> Please connect PB.2 and PE.11 first << \n");
     printf("     Press any key to start test by using [Pin Data Input/Output Control] \n\n");
     getchar();
 
-    /* Configure PB.2 as Output mode and PE.1 as Input mode then close it */
+    /* Configure PB.2 as Output mode and PE.11 as Input mode then close it */
     GPIO_SetMode(PB, BIT2, GPIO_MODE_OUTPUT);
-    GPIO_SetMode(PE, BIT1, GPIO_MODE_INPUT);
+    GPIO_SetMode(PE, BIT11, GPIO_MODE_INPUT);
 
     i32Err = 0;
-    printf("GPIO PB.2(output mode) connect to PE.1(input mode) ......");
+    printf("GPIO PB.2(output mode) connect to PE.11(input mode) ......");
 
     /* Use Pin Data Input/Output Control to pull specified I/O or get I/O pin status */
     /* Set PB.2 output pin value is low */
@@ -114,8 +114,8 @@ int32_t main(void)
     /* Set time out counter */
     i32TimeOutCnt = 100;
 
-    /* Wait for PE.1 input pin status is low for a while */
-    while(PE1 != 0)
+    /* Wait for PE.11 input pin status is low for a while */
+    while(PE11 != 0)
     {
         if(i32TimeOutCnt > 0)
         {
@@ -134,8 +134,8 @@ int32_t main(void)
     /* Set time out counter */
     i32TimeOutCnt = 100;
 
-    /* Wait for PE.1 input pin status is high for a while */
-    while(PE1 != 1)
+    /* Wait for PE.11 input pin status is high for a while */
+    while(PE11 != 1)
     {
         if(i32TimeOutCnt > 0)
         {
@@ -158,9 +158,9 @@ int32_t main(void)
         printf("  [OK].\n");
     }
 
-    /* Configure PB.2 and PE.1 to default Quasi-bidirectional mode */
+    /* Configure PB.2 and PE.11 to default Quasi-bidirectional mode */
     GPIO_SetMode(PB, BIT2, GPIO_MODE_QUASI);
-    GPIO_SetMode(PE, BIT1, GPIO_MODE_QUASI);
+    GPIO_SetMode(PE, BIT11, GPIO_MODE_QUASI);
 
     while(1);
 
