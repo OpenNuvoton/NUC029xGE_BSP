@@ -56,12 +56,12 @@ void SYS_Init(void)
     SYS->GPA_MFPL |= (SYS_GPA_MFPL_PA3MFP_UART0_RXD | SYS_GPA_MFPL_PA2MFP_UART0_TXD);
 
     /* Set Timer0 PWM CH0(TM0) and CH1(TM0_EXT) pins */
-    SYS->GPD_MFPL &= ~(SYS_GPD_MFPL_PD4MFP_Msk | SYS_GPD_MFPL_PD2MFP_Msk);
-    SYS->GPD_MFPL |= (SYS_GPD_MFPL_PD4MFP_TM0 | SYS_GPD_MFPL_PD2MFP_TM0_EXT);
+    SYS->GPD_MFPL &= ~(SYS_GPD_MFPL_PD1MFP_Msk | SYS_GPD_MFPL_PD2MFP_Msk);
+    SYS->GPD_MFPL |= (SYS_GPD_MFPL_PD1MFP_TM0 | SYS_GPD_MFPL_PD2MFP_TM0_EXT);
 
     /* Set Timer1 PWM CH0(TM1) and CH1(TM1_EXT) pins */
-    SYS->GPD_MFPL &= ~(SYS_GPD_MFPL_PD5MFP_Msk | SYS_GPD_MFPL_PD3MFP_Msk);
-    SYS->GPD_MFPL |= (SYS_GPD_MFPL_PD5MFP_TM1 | SYS_GPD_MFPL_PD3MFP_TM1_EXT);
+    SYS->GPD_MFPL &= ~(SYS_GPD_MFPL_PD7MFP_Msk | SYS_GPD_MFPL_PD3MFP_Msk);
+    SYS->GPD_MFPL |= (SYS_GPD_MFPL_PD7MFP_TM1 | SYS_GPD_MFPL_PD3MFP_TM1_EXT);
 }
 
 void UART0_Init(void)
@@ -127,7 +127,7 @@ int main(void)
     printf("    - Period value:            %d \n", u32Period);
     printf("    - Comparator value:        %d \n", u32CMP);
     printf("# I/O configuration:\n");
-    printf("    - Timer0 PWM_CH0 on PD.4, PWM_CH1 on PD.2\n\n");
+    printf("    - Timer0 PWM_CH0 on PD.1, PWM_CH1 on PD.2\n\n");
 
 
     /* Configure Timer1 PWM */
@@ -140,7 +140,7 @@ int main(void)
     printf("    - Comparator value:        %d \n", u32CMP);
     printf("    - Deat-Time interval:      %d \n", u32DeadTime);
     printf("# I/O configuration:\n");
-    printf("    - Timer1 PWM_CH0 on PD.5, PWM_CH1 on PD.3\n\n");
+    printf("    - Timer1 PWM_CH0 on PD.7, PWM_CH1 on PD.3\n\n");
 
     /* Change Timer to PWM counter mode */
     TPWM_ENABLE_PWM_MODE(TIMER1);

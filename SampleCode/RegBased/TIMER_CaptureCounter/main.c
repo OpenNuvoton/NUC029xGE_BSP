@@ -92,12 +92,12 @@ void SYS_Init(void)
     SYS->GPA_MFPL |= (SYS_GPA_MFPL_PA3MFP_UART0_RXD | SYS_GPA_MFPL_PA2MFP_UART0_TXD);
 
     /* Set PD multi-function pins for Timer0 toggle-output pin and Timer2 event counter pin */
-    SYS->GPD_MFPL &= ~(SYS_GPD_MFPL_PD4MFP_Msk | SYS_GPD_MFPL_PD3MFP_Msk);
-    SYS->GPD_MFPL |= SYS_GPD_MFPL_PD4MFP_TM0 | SYS_GPD_MFPL_PD3MFP_TM2;
+    SYS->GPD_MFPL &= ~(SYS_GPD_MFPL_PD1MFP_Msk | SYS_GPD_MFPL_PD3MFP_Msk);
+    SYS->GPD_MFPL |= SYS_GPD_MFPL_PD1MFP_TM0 | SYS_GPD_MFPL_PD3MFP_TM2;
 
-    /* Set PA multi-function pins for Timer2 external capture pin */
-    SYS->GPA_MFPL &= ~SYS_GPA_MFPL_PA5MFP_Msk;
-    SYS->GPA_MFPL |= SYS_GPA_MFPL_PA5MFP_TM2_EXT;
+    /* Set PB multi-function pins for Timer2 external capture pin */
+    SYS->GPB_MFPL &= ~SYS_GPB_MFPL_PB2MFP_Msk;
+    SYS->GPB_MFPL |= SYS_GPB_MFPL_PB2MFP_TM2_EXT;
 
     /* Set PB multi-function pins for Timer3 toggle-output pin */
     SYS->GPB_MFPL &= ~SYS_GPB_MFPL_PB1MFP_Msk;
@@ -159,8 +159,8 @@ int main(void)
     printf("    - Event counter mode enable         \n");
     printf("    - External capture mode enable      \n");
     printf("    - Capture trigger interrupt enable  \n");
-    printf("# Connect T0(PD.4) toggle-output pin to T2(PD.3) event counter pin.\n");
-    printf("# Connect T3(PB.1) toggle-output pin to T2_EXT(PA.5) external capture pin.\n\n");
+    printf("# Connect T0(PD.1) toggle-output pin to T2(PD.3) event counter pin.\n");
+    printf("# Connect T3(PB.1) toggle-output pin to T2_EXT(PB.2) external capture pin.\n\n");
 
     /* Enable Timer2 NVIC */
     NVIC_EnableIRQ(TMR2_IRQn);

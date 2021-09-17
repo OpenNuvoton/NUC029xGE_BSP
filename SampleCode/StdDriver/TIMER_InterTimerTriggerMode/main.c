@@ -73,9 +73,9 @@ void SYS_Init(void)
     SYS->GPA_MFPL &= ~(SYS_GPA_MFPL_PA2MFP_Msk | SYS_GPA_MFPL_PA3MFP_Msk);
     SYS->GPA_MFPL |= (SYS_GPA_MFPL_PA3MFP_UART0_RXD | SYS_GPA_MFPL_PA2MFP_UART0_TXD);
 
-    /* Set Timer0 event counting pin PD.4 */
-    SYS->GPD_MFPL &= ~SYS_GPD_MFPL_PD4MFP_Msk;
-    SYS->GPD_MFPL |= SYS_GPD_MFPL_PD4MFP_TM0;
+    /* Set Timer0 event counting pin PD.1 */
+    SYS->GPD_MFPL &= ~SYS_GPD_MFPL_PD1MFP_Msk;
+    SYS->GPD_MFPL |= SYS_GPD_MFPL_PD1MFP_TM0;
 }
 
 void UART0_Init(void)
@@ -115,7 +115,7 @@ int main(void)
     printf("+---------------------------------------+\n\n");
 
     printf("This sample code demonstrate inter-timer trigger mode on TIMER0 and TIMER1.\n\n");
-    printf("Please connect input source with Timer 0 counter pin PD.4, press any key to continue.\n");
+    printf("Please connect input source with Timer 0 counter pin PD.1, press any key to continue.\n");
     getchar();
 
     /* This sample code demonstrate inter timer trigger mode using Timer0 and Timer1

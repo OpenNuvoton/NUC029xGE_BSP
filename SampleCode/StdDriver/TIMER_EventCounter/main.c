@@ -138,11 +138,11 @@ int main(void)
     printf("    - Interrupt enable          \n");
     printf("    - Event counter mode enable \n");
     printf("    - Compared value is 56789   \n");
-    printf("# Connect PD.4 pin to event counter pin T2(PD.3) and pull PD.4 High/Low to generate T2 event input source.\n\n");
+    printf("# Connect PD.1 pin to event counter pin T2(PD.3) and pull PD.1 High/Low to generate T2 event input source.\n\n");
 
-    /* Configure PD.4 as GPIO output pin and pull initial pin status to Low */
-    PD->MODE = 0xFFFFFDFF;
-    PD4 = 0;
+    /* Configure PD.1 as GPIO output pin and pull initial pin status to Low */
+    PD->MODE = 0xFFFFFFF7;
+    PD1 = 0;
 
     /* Enable Timer2 NVIC */
     NVIC_EnableIRQ(TMR2_IRQn);
@@ -172,8 +172,8 @@ int main(void)
 
     printf("Start to check Timer2 counter value ......\n\n");
 
-    /* To generate one counter event from PD.4 to T2 pin */
-    GenerateEventCounterSource(3, 4, 1);
+    /* To generate one counter event from PD.1 to T2 pin */
+    GenerateEventCounterSource(3, 1, 1);
 
     /* To check if counter value of Timer2 should be 1 */
     while(TIMER_GetCounter(TIMER2) == 0);
@@ -187,7 +187,7 @@ int main(void)
     }
 
     /* To generate remains counts to T2 pin */
-    GenerateEventCounterSource(3, 4, (56789 - 1));
+    GenerateEventCounterSource(3, 1, (56789 - 1));
 
     while(1)
     {

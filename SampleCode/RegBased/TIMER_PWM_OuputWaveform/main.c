@@ -67,8 +67,8 @@ void SYS_Init(void)
     SYS->GPA_MFPL |= (SYS_GPA_MFPL_PA3MFP_UART0_RXD | SYS_GPA_MFPL_PA2MFP_UART0_TXD);
 
     /* Set Timer0 PWM CH0(TM0) and Timer1 PWM CH0(TM1) pin */
-    SYS->GPD_MFPL &= ~(SYS_GPD_MFPL_PD4MFP_Msk | SYS_GPD_MFPL_PD7MFP_Msk);
-    SYS->GPD_MFPL |= (SYS_GPD_MFPL_PD4MFP_TM0 | SYS_GPD_MFPL_PD7MFP_TM1);
+    SYS->GPD_MFPL &= ~(SYS_GPD_MFPL_PD1MFP_Msk | SYS_GPD_MFPL_PD7MFP_Msk);
+    SYS->GPD_MFPL |= (SYS_GPD_MFPL_PD1MFP_TM0 | SYS_GPD_MFPL_PD7MFP_TM1);
     /* Set Timer2 PWM CH0(TM2) and Timer3 PWM CH3(TM1) pin */
     SYS->GPD_MFPH &= ~(SYS_GPD_MFPH_PD8MFP_Msk | SYS_GPD_MFPH_PD9MFP_Msk);
     SYS->GPD_MFPH |= (SYS_GPD_MFPH_PD8MFP_TM2 | SYS_GPD_MFPH_PD9MFP_TM3);
@@ -125,7 +125,7 @@ int main(void)
     printf("# Timer2 PWM_CH0 output frequency is %d Hz and duty is 75%%.\n", SystemCoreClock / u32Period[2]);
     printf("# Timer3 PWM_CH0 output frequency is %d Hz and duty is 20%%.\n", SystemCoreClock / u32Period[3]);
     printf("# I/O configuration:\n");
-    printf("    - Timer0 PWM_CH0 on PD.4\n");
+    printf("    - Timer0 PWM_CH0 on PD.1\n");
     printf("    - Timer1 PWM_CH0 on PD.7\n");
     printf("    - Timer2 PWM_CH0 on PD.8\n");
     printf("    - Timer3 PWM_CH0 on PD.9\n\n");

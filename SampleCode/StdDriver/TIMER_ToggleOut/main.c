@@ -53,9 +53,9 @@ void SYS_Init(void)
     SYS->GPA_MFPL &= ~(SYS_GPA_MFPL_PA2MFP_Msk | SYS_GPA_MFPL_PA3MFP_Msk);
     SYS->GPA_MFPL |= (SYS_GPA_MFPL_PA3MFP_UART0_RXD | SYS_GPA_MFPL_PA2MFP_UART0_TXD);
 
-    /* Set PD.4 as Timer0 toggle-outout pin*/
-    SYS->GPD_MFPL &= ~SYS_GPD_MFPL_PD4MFP_Msk;
-    SYS->GPD_MFPL |= SYS_GPD_MFPL_PD4MFP_TM0;
+    /* Set PD.1 as Timer0 toggle-outout pin*/
+    SYS->GPD_MFPL &= ~SYS_GPD_MFPL_PD1MFP_Msk;
+    SYS->GPD_MFPL |= SYS_GPD_MFPL_PD1MFP_TM0;
 }
 
 void UART0_Init(void)
@@ -94,7 +94,7 @@ int main(void)
     printf("|    Timer Periodic Interrupt Sample Code    |\n");
     printf("+--------------------------------------------+\n\n");
 
-    printf("This sample code will set Timer0 frequency 1000 Hz and generate 500Hz toggle output to T0(PD.4) pin.\n");
+    printf("This sample code will set Timer0 frequency 1000 Hz and generate 500Hz toggle output to T0(PD.1) pin.\n");
 
     /* To generate 500HZ toggle output, timer frequency must set to 1000Hz.
        Because toggle output state change on every timer timeout event */

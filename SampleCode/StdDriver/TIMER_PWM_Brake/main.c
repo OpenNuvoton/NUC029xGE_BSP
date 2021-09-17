@@ -71,13 +71,13 @@ void SYS_Init(void)
     SYS->GPA_MFPL &= ~(SYS_GPA_MFPL_PA2MFP_Msk | SYS_GPA_MFPL_PA3MFP_Msk);
     SYS->GPA_MFPL |= (SYS_GPA_MFPL_PA3MFP_UART0_RXD | SYS_GPA_MFPL_PA2MFP_UART0_TXD);
 
-    /* Set Timer0 PWM output pins, PD.4 */
-    SYS->GPD_MFPL &= ~SYS_GPD_MFPL_PD4MFP_Msk;
-    SYS->GPD_MFPL |= SYS_GPD_MFPL_PD4MFP_TM0;
+    /* Set Timer0 PWM output pins, PD.1 */
+    SYS->GPD_MFPL &= ~SYS_GPD_MFPL_PD1MFP_Msk;
+    SYS->GPD_MFPL |= SYS_GPD_MFPL_PD1MFP_TM0;
 
-    /* Set PA.8 multi-function pin for Timer0 PWM brake pin */
-    SYS->GPA_MFPH &= ~SYS_GPA_MFPH_PA8MFP_Msk;
-    SYS->GPA_MFPH |= SYS_GPA_MFPH_PA8MFP_TM_BRAKE0;
+    /* Set PB.2 multi-function pin for Timer0 PWM brake pin */
+    SYS->GPB_MFPL &= ~SYS_GPB_MFPL_PB2MFP_Msk;
+    SYS->GPB_MFPL |= SYS_GPB_MFPL_PB2MFP_TM_BRAKE0;
 }
 
 void UART0_Init(void)
@@ -114,8 +114,8 @@ int main(void)
     printf("|    Timer Brake Event Sample Code    |\n");
     printf("+-------------------------------------+\n\n");
 
-    printf("# Timer0 PWM output waveform on PD.4.\n");
-    printf("# L->H state change on PA.8 (Brake pin) will generate brake interrupt and\n");
+    printf("# Timer0 PWM output waveform on PD.1.\n");
+    printf("# L->H state change on PB.2 (Brake pin) will generate brake interrupt and\n");
     printf("  Timer0 PWM output will stop until brake state cleared.\n\n");
 
     /* Change Timer to PWM counter mode */

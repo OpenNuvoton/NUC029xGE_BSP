@@ -23,15 +23,15 @@ void AccessEBIWithPDMA(void);
 
 void Configure_EBI_16BIT_Pins(void)
 {
-    /* EBI AD0~7 pins on PA.0~7 */
+    /* EBI AD0~7 pins on PA.0~3, PB.4~7 */
     SYS->GPA_MFPL &= ~(SYS_GPA_MFPL_PA0MFP_Msk | SYS_GPA_MFPL_PA1MFP_Msk |
-                       SYS_GPA_MFPL_PA2MFP_Msk | SYS_GPA_MFPL_PA3MFP_Msk |
-                       SYS_GPA_MFPL_PA4MFP_Msk | SYS_GPA_MFPL_PA5MFP_Msk |
-                       SYS_GPA_MFPL_PA6MFP_Msk | SYS_GPA_MFPL_PA7MFP_Msk);
+                       SYS_GPA_MFPL_PA2MFP_Msk | SYS_GPA_MFPL_PA3MFP_Msk);
+    SYS->GPB_MFPL &= ~(SYS_GPB_MFPL_PB7MFP_Msk | SYS_GPB_MFPL_PB6MFP_Msk |
+                       SYS_GPB_MFPL_PB5MFP_Msk | SYS_GPB_MFPL_PB4MFP_Msk );
     SYS->GPA_MFPL |= SYS_GPA_MFPL_PA0MFP_EBI_AD0 | SYS_GPA_MFPL_PA1MFP_EBI_AD1 |
-                     SYS_GPA_MFPL_PA2MFP_EBI_AD2 | SYS_GPA_MFPL_PA3MFP_EBI_AD3 |
-                     SYS_GPA_MFPL_PA4MFP_EBI_AD4 | SYS_GPA_MFPL_PA5MFP_EBI_AD5 |
-                     SYS_GPA_MFPL_PA6MFP_EBI_AD6 | SYS_GPA_MFPL_PA7MFP_EBI_AD7;
+                     SYS_GPA_MFPL_PA2MFP_EBI_AD2 | SYS_GPA_MFPL_PA3MFP_EBI_AD3;
+    SYS->GPB_MFPL |= SYS_GPB_MFPL_PB7MFP_EBI_AD4 | SYS_GPB_MFPL_PB6MFP_EBI_AD5 |
+                     SYS_GPB_MFPL_PB5MFP_EBI_AD6 | SYS_GPB_MFPL_PB4MFP_EBI_AD7;
 
     /* EBI AD8~15 pins on PC.0~7 */
     SYS->GPC_MFPL &= ~(SYS_GPC_MFPL_PC0MFP_Msk | SYS_GPC_MFPL_PC1MFP_Msk |
@@ -114,7 +114,7 @@ void SYS_Init(void)
     /*---------------------------------------------------------------------------------------------------------*/
     /* Init I/O Multi-function                                                                                 */
     /*---------------------------------------------------------------------------------------------------------*/
-    /* Set PD multi-function pins for UART0 RXD, TXD */
+    /* Set PD multi-function pins for UART0 RXD and TXD */
     SYS->GPD_MFPL &= ~(SYS_GPD_MFPL_PD0MFP_Msk | SYS_GPD_MFPL_PD1MFP_Msk);
     SYS->GPD_MFPL |= (SYS_GPD_MFPL_PD0MFP_UART0_RXD | SYS_GPD_MFPL_PD1MFP_UART0_TXD);
 }
@@ -158,7 +158,8 @@ int main(void)
     printf("********************************************************************\n");
     printf("* Please connect BS616LV4017 SRAM to EBI bank0 before accessing !! *\n");
     printf("* EBI pins settings:                                               *\n");
-    printf("*   - AD0 ~ AD7 on PA.0 ~ PA.7                                     *\n");
+    printf("*   - AD0 ~ AD3 on PA.0 ~ PA.3                                     *\n");
+    printf("*   - AD4 ~ AD7 on PB.7 ~ PB.4                                 	   *\n");
     printf("*   - AD8 ~ AD15 on PC.0 ~ PC.7                                    *\n");
     printf("*   - AD16 ~ AD19 on PD.12 ~ PD.15                                 *\n");
     printf("*   - nWR on PD.2                                                  *\n");

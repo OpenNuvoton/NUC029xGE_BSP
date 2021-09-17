@@ -91,8 +91,8 @@ void SYS_Init(void)
     SYS->GPA_MFPL |= (SYS_GPA_MFPL_PA3MFP_UART0_RXD | SYS_GPA_MFPL_PA2MFP_UART0_TXD);
 
     /* Set Timer0 PWM CH0(TM0) pin */
-    SYS->GPD_MFPL &= ~SYS_GPD_MFPL_PD4MFP_Msk;
-    SYS->GPD_MFPL |= SYS_GPD_MFPL_PD4MFP_TM0;
+    SYS->GPD_MFPL &= ~SYS_GPD_MFPL_PD1MFP_Msk;
+    SYS->GPD_MFPL |= SYS_GPD_MFPL_PD1MFP_TM0;
 }
 
 void UART0_Init(void)
@@ -132,7 +132,7 @@ int main(void)
     printf("# Timer0 PWM_CH0 frequency of first period is 18 kHz and duty is 50%%.\n");
     printf("# Timer0 PWM_CH0 frequency of second period is 36 kHz and duty is 40%%.\n");
     printf("# I/O configuration:\n");
-    printf("    - Timer0 PWM_CH0 on PD.4\n\n");
+    printf("    - Timer0 PWM_CH0 on PD.1\n\n");
     printf("        Timer0 PWM_CH0 waveform of this sample shown below: \n");
     printf("\n");
     printf("        |<-        PERIOD0+1        ->|                     \n");

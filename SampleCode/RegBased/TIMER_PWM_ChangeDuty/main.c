@@ -101,8 +101,8 @@ void SYS_Init(void)
     SYS->GPA_MFPL |= (SYS_GPA_MFPL_PA3MFP_UART0_RXD | SYS_GPA_MFPL_PA2MFP_UART0_TXD);
 
     /* Set Timer0 PWM CH0(TM0) pins */
-    SYS->GPD_MFPL &= ~SYS_GPD_MFPL_PD4MFP_Msk;
-    SYS->GPD_MFPL |= SYS_GPD_MFPL_PD4MFP_TM0;
+    SYS->GPD_MFPL &= ~SYS_GPD_MFPL_PD1MFP_Msk;
+    SYS->GPD_MFPL |= SYS_GPD_MFPL_PD1MFP_TM0;
 }
 
 void UART0_Init(void)
@@ -151,7 +151,7 @@ int main(void)
     printf("    - Updated period value:     %d \n", 100);
     printf("    - Updated comparator value: %d \n", 40);
     printf("# I/O configuration:\n");
-    printf("    - Timer0 PWM_CH0 on PD.4\n\n");
+    printf("    - Timer0 PWM_CH0 on PD.1\n\n");
     printf("        Timer0 PWM_CH0 waveform of this sample shown below:                             \n");
     printf("\n");
     printf("        |<-        PERIOD0+1        ->|                     PERIOD0 + 1 = (399 + 1) CLKs\n");
