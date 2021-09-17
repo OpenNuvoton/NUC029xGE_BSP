@@ -155,11 +155,11 @@ void SYS_Init(void)
     SYS->GPA_MFPL &= ~(SYS_GPA_MFPL_PA2MFP_Msk | SYS_GPA_MFPL_PA3MFP_Msk);
     SYS->GPA_MFPL |= (SYS_GPA_MFPL_PA3MFP_UART0_RXD | SYS_GPA_MFPL_PA2MFP_UART0_TXD);
 
-    /* Set PC multi-function pins for PWM1 Channel 0 and 2 */
+    /* Set PC and PD multi-function pins for PWM1 Channel 0 and 2 */
     SYS->GPC_MFPL &= ~(SYS_GPC_MFPL_PC6MFP_Msk);
     SYS->GPC_MFPL |= SYS_GPC_MFPL_PC6MFP_PWM1_CH0;
-    SYS->GPC_MFPH &= ~(SYS_GPC_MFPH_PC11MFP_Msk);
-    SYS->GPC_MFPH |= SYS_GPC_MFPH_PC11MFP_PWM1_CH2;
+    SYS->GPD_MFPH &= ~(SYS_GPD_MFPH_PD14MFP_Msk);
+    SYS->GPD_MFPH |= SYS_GPD_MFPH_PD14MFP_PWM1_CH2;
 }
 
 void UART0_Init()
@@ -208,8 +208,8 @@ int32_t main(void)
     printf("+------------------------------------------------------------------------+\n");
     printf("  This sample code will use PWM1 channel 2 to capture\n  the signal from PWM1 channel 0.\n");
     printf("  I/O configuration:\n");
-    printf("    PWM1 channel 2(PC.11) <--> PWM1 channel 0(PC.6)\n\n");
-    printf("Use PWM1 Channel 2(PC.11) to capture the PWM1 Channel 0(PC.6) Waveform\n");
+    printf("    PWM1 channel 2(PD.14) <--> PWM1 channel 0(PC.6)\n\n");
+    printf("Use PWM1 Channel 2(PD.14) to capture the PWM1 Channel 0(PC.6) Waveform\n");
 
     while(1)
     {
