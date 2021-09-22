@@ -53,7 +53,7 @@ int main()
     printf(" USCI_SPI1 configuration:\n");
     printf("     Master mode; data width 16 bits.\n");
     printf(" I/O connection:\n");
-    printf("     PB.0 USCI_SPI1_MOSI <--> PB.1 USCI_SPI1_MISO \n");
+    printf("     PD.14 USCI_SPI1_MOSI <--> PD.13 USCI_SPI1_MISO \n");
 
     printf("\nUSCI_SPI1 Loopback test ");
 
@@ -153,18 +153,16 @@ void SYS_Init(void)
     /* User can use SystemCoreClockUpdate() to calculate SystemCoreClock and cyclesPerUs automatically. */
     SystemCoreClockUpdate();
 
-    /* Set multi-function pins for UART0 RXD and TXD */
-    SYS->GPA_MFPL &= ~(SYS_GPA_MFPL_PA2MFP_Msk | SYS_GPA_MFPL_PA3MFP_Msk);
+    /* Set PA multi-function pins for UART0 RXD and TXD */
+    SYS->GPA_MFPL &= ~(SYS_GPA_MFPL_PA3MFP_Msk | SYS_GPA_MFPL_PA2MFP_Msk);
     SYS->GPA_MFPL |= (SYS_GPA_MFPL_PA3MFP_UART0_RXD | SYS_GPA_MFPL_PA2MFP_UART0_TXD);
 
     /* Set PD5 as output mode and PD6 as Input mode */
     PD->MODE = (PD->MODE & 0xFFFFC3FF) | 0x00000400;
 
     /* Set USCI_SPI1 multi-function pins */
-    SYS->GPD_MFPH &= ~(SYS_GPD_MFPH_PD12MFP_Msk | SYS_GPD_MFPH_PD15MFP_Msk);
-    SYS->GPD_MFPH |= (SYS_GPD_MFPH_PD12MFP_USCI1_CTL0 | SYS_GPD_MFPH_PD15MFP_USCI1_CLK);
-    SYS->GPB_MFPL &= ~(SYS_GPB_MFPL_PB0MFP_Msk | SYS_GPB_MFPL_PB1MFP_Msk);
-    SYS->GPB_MFPL |= (SYS_GPB_MFPL_PB0MFP_USCI1_DAT0 | SYS_GPB_MFPL_PB1MFP_USCI1_DAT1);
+    SYS->GPD_MFPH &= ~(SYS_GPD_MFPH_PD12MFP_Msk | SYS_GPD_MFPH_PD13MFP_Msk | SYS_GPD_MFPH_PD14MFP_Msk | SYS_GPD_MFPH_PD15MFP_Msk);
+    SYS->GPD_MFPH |= (SYS_GPD_MFPH_PD12MFP_USCI1_CTL0 | SYS_GPD_MFPH_PD13MFP_USCI1_DAT1 | SYS_GPD_MFPH_PD14MFP_USCI1_DAT0 | SYS_GPD_MFPH_PD15MFP_USCI1_CLK);
 
     /* Set PC0,2,3 as output mode and PC1 as Input mode */
     PC->MODE = (PC->MODE & 0xFFFFFF00) | 0x00000051;

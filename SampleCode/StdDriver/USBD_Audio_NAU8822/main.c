@@ -111,9 +111,9 @@ void SYS_Init(void)
     SYS->GPA_MFPL |= (SYS_GPA_MFPL_PA3MFP_UART0_RXD | SYS_GPA_MFPL_PA2MFP_UART0_TXD);
 
 
-    /* Set GPD multi-function pins for Clock Output */
-    SYS->GPD_MFPL &= ~(SYS_GPD_MFPL_PD5MFP_Msk);
-    SYS->GPD_MFPL |= (SYS_GPD_MFPL_PD5MFP_CLKO);
+    /* Set GPC multi-function pins for Clock Output */
+    SYS->GPC_MFPL &= ~(SYS_GPC_MFPL_PC1MFP_Msk);
+    SYS->GPC_MFPL |= (SYS_GPC_MFPL_PC1MFP_CLKO);
 
 
     /* Set GPE12, GPE13 to be I2C */
@@ -127,7 +127,7 @@ void SYS_Init(void)
     SYS->GPB_MFPL = (SYS->GPB_MFPL & (~0x00FFFF00)) | 0x00222200; /* PB[5:2] : SPI0_MOSI0, SPI0_SS, SPI0_MISO0, SPI0_CLK */
     PB->SLEWCTL |= 0x3C;
 
-    /* Enable CLKO(PD5) for monitor HCLK. CLKO = HIRC/64 Hz */
+    /* Enable CLKO(PC1) for monitor HCLK. CLKO = HIRC/64 Hz */
     EnableCLKO((3 << CLK_CLKSEL2_CLKOSEL_Pos), 5);
 }
 
@@ -183,7 +183,7 @@ int32_t main(void)
 
             PC5 <-> I2S_MCLK
 
-        PD5 is used to output clock (HCLK/8) to check HCLK frequency.
+        PC1 is used to output clock (HCLK/8) to check HCLK frequency.
 
         Clock config (I2S Master Mode):
             PLL = 122,880,000 Hz

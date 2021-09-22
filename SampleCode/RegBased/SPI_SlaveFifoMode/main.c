@@ -49,7 +49,7 @@ int main(void)
 
     printf("\n\n");
     printf("+----------------------------------------------------------------------+\n");
-    printf("|           SPI Slave Mode Sample Code (M05xxDN/DE only)               |\n");
+    printf("|                      SPI Slave Mode Sample Code                      |\n");
     printf("+----------------------------------------------------------------------+\n");
     printf("\n");
     printf("Configure SPI0 as a slave.\n");
@@ -131,8 +131,8 @@ void SYS_Init(void)
     /*---------------------------------------------------------------------------------------------------------*/
     /* Init I/O Multi-function                                                                                 */
     /*---------------------------------------------------------------------------------------------------------*/
-    /* Set multi-function pins for UART0 RXD and TXD */
-    SYS->GPA_MFPL &= ~(SYS_GPA_MFPL_PA2MFP_Msk | SYS_GPA_MFPL_PA3MFP_Msk);
+    /* Set PA multi-function pins for UART0 RXD and TXD */
+    SYS->GPA_MFPL &= ~(SYS_GPA_MFPL_PA3MFP_Msk | SYS_GPA_MFPL_PA2MFP_Msk);
     SYS->GPA_MFPL |= (SYS_GPA_MFPL_PA3MFP_UART0_RXD | SYS_GPA_MFPL_PA2MFP_UART0_TXD);
 
     /* Setup SPI0 multi-function pins */

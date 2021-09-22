@@ -50,14 +50,14 @@ int main(void)
 
     printf("\n\n");
     printf("+--------------------------------------------------------------+\n");
-    printf("|                  SPI + PDMA Sample Code                      |\n");
+    printf("|                    SPI + PDMA Sample Code                    |\n");
     printf("+--------------------------------------------------------------+\n");
     printf("\n");
     printf("Configure SPI0 as a master and SPI1 as a slave.\n");
     printf("Bit length of a transaction: 32\n");
     printf("The I/O connection for SPI0/SPI1 loopback:\n");
-    printf("    SPI0_SS  (PB.4) <--> SPI1_SS(PA.4)\n    SPI0_CLK(PB.2)  <--> SPI1_CLK(PA.7)\n");
-    printf("    SPI0_MISO(PB.3) <--> SPI1_MISO(PA.6)\n    SPI0_MOSI(PB.5) <--> SPI1_MOSI(PA.5)\n\n");
+    printf("    SPI0_SS  (PB.4) <--> SPI1_SS(PD.12)\n    SPI0_CLK(PB.2)  <--> SPI1_CLK(PD.15)\n");
+    printf("    SPI0_MISO(PB.3) <--> SPI1_MISO(PD.14)\n    SPI0_MOSI(PB.5) <--> SPI1_MOSI(PD.13)\n\n");
     printf("Please connect SPI0 with SPI1, and press any key to start transmission ...");
     getchar();
     printf("\n");
@@ -106,18 +106,17 @@ void SYS_Init(void)
     /* Init I/O Multi-function                                                                                 */
     /*---------------------------------------------------------------------------------------------------------*/
 
-    /* Set multi-function pins for UART0 RXD and TXD */
-    SYS->GPA_MFPL &= ~(SYS_GPA_MFPL_PA2MFP_Msk | SYS_GPA_MFPL_PA3MFP_Msk);
+    /* Set PA multi-function pins for UART0 RXD and TXD */
+    SYS->GPA_MFPL &= ~(SYS_GPA_MFPL_PA3MFP_Msk | SYS_GPA_MFPL_PA2MFP_Msk);
     SYS->GPA_MFPL |= (SYS_GPA_MFPL_PA3MFP_UART0_RXD | SYS_GPA_MFPL_PA2MFP_UART0_TXD);
 
     /* Configure SPI0 related multi-function pins. GPB[5:2] : SPI0_MOSI, SPI0_SS, SPI0_MISO, SPI0_CLK. */
     SYS->GPB_MFPL &= (~(SYS_GPB_MFPL_PB2MFP_Msk | SYS_GPB_MFPL_PB3MFP_Msk | SYS_GPB_MFPL_PB4MFP_Msk | SYS_GPB_MFPL_PB5MFP_Msk));
     SYS->GPB_MFPL |= (SYS_GPB_MFPL_PB2MFP_SPI0_CLK | SYS_GPB_MFPL_PB3MFP_SPI0_MISO | SYS_GPB_MFPL_PB4MFP_SPI0_SS | SYS_GPB_MFPL_PB5MFP_SPI0_MOSI);
 
-    /* Configure SPI1 related multi-function pins. GPA[7:4] : SPI1_CLK, SPI1_MISO, SPI1_MOSI, SPI1_SS. */
-    SYS->GPA_MFPL &= ~(SYS_GPA_MFPL_PA4MFP_Msk | SYS_GPA_MFPL_PA5MFP_Msk | SYS_GPA_MFPL_PA6MFP_Msk | SYS_GPA_MFPL_PA7MFP_Msk);
-    SYS->GPA_MFPL |= (SYS_GPA_MFPL_PA4MFP_SPI1_SS | SYS_GPA_MFPL_PA5MFP_SPI1_MOSI | SYS_GPA_MFPL_PA6MFP_SPI1_MISO | SYS_GPA_MFPL_PA7MFP_SPI1_CLK);
-
+    /* Configure SPI1 related multi-function pins. GPD[15:12] : SPI1_CLK, SPI1_MISO, SPI1_MOSI, SPI1_SS. */
+    SYS->GPD_MFPH &= ~(SYS_GPD_MFPH_PD12MFP_Msk | SYS_GPD_MFPH_PD13MFP_Msk | SYS_GPD_MFPH_PD14MFP_Msk | SYS_GPD_MFPH_PD15MFP_Msk);
+    SYS->GPD_MFPH |= (SYS_GPD_MFPH_PD12MFP_SPI1_SS | SYS_GPD_MFPH_PD13MFP_SPI1_MOSI | SYS_GPD_MFPH_PD14MFP_SPI1_MISO | SYS_GPD_MFPH_PD15MFP_SPI1_CLK);
 }
 
 void UART_Init()

@@ -53,7 +53,7 @@ int main()
     printf("Bit length of a transaction: 16\n");
     printf("The I/O connection for USCI_SPI1:\n");
     printf("    USCI_SPI1_SS (PD.12)\n    USCI_SPI1_CLK (PD.15)\n");
-    printf("    USCI_SPI1_MISO (PB.1)\n    USCI_SPI1_MOSI (PB.0)\n\n");
+    printf("    USCI_SPI1_MISO (PD.13)\n    USCI_SPI1_MOSI (PD.14)\n\n");
     printf("USCI_SPI controller will transfer %d data to a off-chip slave device.\n", TEST_COUNT);
     printf("In the meanwhile the USCI_SPI controller will receive %d data from the off-chip slave device.\n", TEST_COUNT);
     printf("After the transfer is done, the %d received data will be printed out.\n", TEST_COUNT);
@@ -141,8 +141,8 @@ void SYS_Init(void)
     /*---------------------------------------------------------------------------------------------------------*/
     /* Init I/O Multi-function                                                                                 */
     /*---------------------------------------------------------------------------------------------------------*/
-    /* Set multi-function pins for UART0 RXD and TXD */
-    SYS->GPA_MFPL &= ~(SYS_GPA_MFPL_PA2MFP_Msk | SYS_GPA_MFPL_PA3MFP_Msk);
+    /* Set PA multi-function pins for UART0 RXD and TXD */
+    SYS->GPA_MFPL &= ~(SYS_GPA_MFPL_PA3MFP_Msk | SYS_GPA_MFPL_PA2MFP_Msk);
     SYS->GPA_MFPL |= (SYS_GPA_MFPL_PA3MFP_UART0_RXD | SYS_GPA_MFPL_PA2MFP_UART0_TXD);
 
     /* Set PD5 as output mode and PD6 as Input mode */
@@ -150,10 +150,8 @@ void SYS_Init(void)
     GPIO_SetMode(PD, BIT6, GPIO_MODE_INPUT);
 
     /* Set USCI_SPI1 multi-function pins */
-    SYS->GPD_MFPH &= ~(SYS_GPD_MFPH_PD12MFP_Msk | SYS_GPD_MFPH_PD15MFP_Msk);
-    SYS->GPD_MFPH |= (SYS_GPD_MFPH_PD12MFP_USCI1_CTL0 | SYS_GPD_MFPH_PD15MFP_USCI1_CLK);
-    SYS->GPB_MFPL &= ~(SYS_GPB_MFPL_PB0MFP_Msk | SYS_GPB_MFPL_PB1MFP_Msk);
-    SYS->GPB_MFPL |= (SYS_GPB_MFPL_PB0MFP_USCI1_DAT0 | SYS_GPB_MFPL_PB1MFP_USCI1_DAT1);
+    SYS->GPD_MFPH &= ~(SYS_GPD_MFPH_PD12MFP_Msk | SYS_GPD_MFPH_PD13MFP_Msk | SYS_GPD_MFPH_PD14MFP_Msk | SYS_GPD_MFPH_PD15MFP_Msk);
+    SYS->GPD_MFPH |= (SYS_GPD_MFPH_PD12MFP_USCI1_CTL0 | SYS_GPD_MFPH_PD13MFP_USCI1_DAT1 | SYS_GPD_MFPH_PD14MFP_USCI1_DAT0 | SYS_GPD_MFPH_PD15MFP_USCI1_CLK);
 
     /* Set PC0,2,3 as output mode and PC1 as Input mode */
     GPIO_SetMode(PC, BIT0, GPIO_MODE_OUTPUT);

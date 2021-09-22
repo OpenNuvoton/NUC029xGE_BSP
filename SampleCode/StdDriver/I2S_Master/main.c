@@ -51,8 +51,8 @@ int32_t main(void)
     printf("      I2S format\n");
     printf("      TX value: 0x55005501, 0x55025503, ..., 0x55FE55FF, wraparound\n");
     printf("  The I/O connection for I2S1 (SPI1):\n");
-    printf("      I2S1_LRCLK (PA4)\n      I2S1_BCLK(PA7)\n");
-    printf("      I2S1_DI (PA6)\n      I2S1_DO (PA5)\n\n");
+    printf("      I2S1_LRCLK (PD.12)\n      I2S1_BCLK(PD.15)\n");
+    printf("      I2S1_DI (PD.14)\n      I2S1_DO (PD.13)\n\n");
     printf("  NOTE: Connect with a I2S slave device.\n");
     printf("        This sample code will transmit a TX value 50000 times, and then change to the next TX value.\n");
     printf("        When TX value or the received value changes, the new TX value or the current TX value and the new received value will be printed.\n");
@@ -143,15 +143,14 @@ void SYS_Init(void)
     /*---------------------------------------------------------------------------------------------------------*/
     /* Init I/O Multi-function                                                                                 */
     /*---------------------------------------------------------------------------------------------------------*/
-    /* Set multi-function pins for UART0 RXD and TXD */
-    SYS->GPA_MFPL &= ~(SYS_GPA_MFPL_PA2MFP_Msk | SYS_GPA_MFPL_PA3MFP_Msk);
+    /* Set PA multi-function pins for UART0 RXD and TXD */
+    SYS->GPA_MFPL &= ~(SYS_GPA_MFPL_PA3MFP_Msk | SYS_GPA_MFPL_PA2MFP_Msk);
     SYS->GPA_MFPL |= (SYS_GPA_MFPL_PA3MFP_UART0_RXD | SYS_GPA_MFPL_PA2MFP_UART0_TXD);
 
     /* Configure SPI1 related multi-function pins. */
-    /* GPA[7:4] : SPI1_CLK (I2S1_BCLK), SPI1_MISO (I2S1_DI), SPI1_MOSI (I2S1_DO), SPI1_SS (I2S1_LRCLK). */
-    SYS->GPA_MFPL &= ~(SYS_GPA_MFPL_PA4MFP_Msk | SYS_GPA_MFPL_PA5MFP_Msk | SYS_GPA_MFPL_PA6MFP_Msk | SYS_GPA_MFPL_PA7MFP_Msk);
-    SYS->GPA_MFPL |= (SYS_GPA_MFPL_PA4MFP_SPI1_SS | SYS_GPA_MFPL_PA5MFP_SPI1_MOSI | SYS_GPA_MFPL_PA6MFP_SPI1_MISO | SYS_GPA_MFPL_PA7MFP_SPI1_CLK);
-
+    /* GPD[15:12] : SPI1_CLK (I2S1_BCLK), SPI1_MISO (I2S1_DI), SPI1_MOSI (I2S1_DO), SPI1_SS (I2S1_LRCLK). */
+    SYS->GPD_MFPH &= ~(SYS_GPD_MFPH_PD12MFP_Msk | SYS_GPD_MFPH_PD13MFP_Msk | SYS_GPD_MFPH_PD14MFP_Msk | SYS_GPD_MFPH_PD15MFP_Msk);
+    SYS->GPD_MFPH |= (SYS_GPD_MFPH_PD12MFP_SPI1_SS | SYS_GPD_MFPH_PD13MFP_SPI1_MOSI | SYS_GPD_MFPH_PD14MFP_SPI1_MISO | SYS_GPD_MFPH_PD15MFP_SPI1_CLK);
 }
 
 void SPI1_IRQHandler()
