@@ -1146,8 +1146,8 @@ typedef struct
      * ---------------------------------------------------------------------------------------------------
      * |Bits    |Field     |Descriptions
      * | :----: | :----:   | :---- |
-     * |[0]     |EBODCKSEL |Clock Source Selection for External BOD
-     * |        |          |The EXTBOD external BOD clock source for detecting external input voltage is defined by EBODCKSEL.
+     * |[0]     |VDETCKSEL |Clock Source Selection for Voltage Detector
+     * |        |          |The Voltage Detector clock source for detecting external input voltage is defined by VDETCKSEL.
      * |        |          |0 = Clock source is from 10 kHz internal low speed RC oscillator (LIRC) clock.
      * |        |          |1 = Clock source is from 32.768 kHz external low speed crystal oscillator (LXT) clock.
      * |        |          |Note1: If LIRC is selected, LIRCEN (CLK_PWRCTL[3]) must be enabled.
@@ -1523,8 +1523,8 @@ typedef struct
 #define CLK_CLKDIV1_SC1DIV_Pos           (8)                                               /*!< CLK_T::CLKDIV1: SC1DIV Position        */
 #define CLK_CLKDIV1_SC1DIV_Msk           (0xfful << CLK_CLKDIV1_SC1DIV_Pos)                /*!< CLK_T::CLKDIV1: SC1DIV Mask            */
 
-#define CLK_BODCLK_EBODCKSEL_Pos         (0)                                               /*!< CLK_T::BODCLK: EBODCKSEL Position      */
-#define CLK_BODCLK_EBODCKSEL_Msk         (0x1ul << CLK_BODCLK_EBODCKSEL_Pos)               /*!< CLK_T::BODCLK: EBODCKSEL Mask          */
+#define CLK_BODCLK_VDETCKSEL_Pos         (0)                                               /*!< CLK_T::BODCLK: VDETCKSEL Position      */
+#define CLK_BODCLK_VDETCKSEL_Msk         (0x1ul << CLK_BODCLK_VDETCKSEL_Pos)               /*!< CLK_T::BODCLK: VDETCKSEL Mask          */
 
 #define CLK_CLKDCTL_HXTFDEN_Pos          (4)                                               /*!< CLK_T::CLKDCTL: HXTFDEN Position       */
 #define CLK_CLKDCTL_HXTFDEN_Msk          (0x1ul << CLK_CLKDCTL_HXTFDEN_Pos)                /*!< CLK_T::CLKDCTL: HXTFDEN Mask           */
@@ -2427,7 +2427,7 @@ typedef struct
      * ---------------------------------------------------------------------------------------------------
      * |Bits    |Field     |Descriptions
      * | :----: | :----:   | :---- |
-     * |[n]     |FLIENn    |Port 0-5 Pin[n] Falling Edge or Low Level Interrupt Trigger Type Enable Bit
+     * |[n]     |FLIENn    |Port A-F Pin[n] Falling Edge or Low Level Interrupt Trigger Type Enable Bit
      * |        |          |The FLIEN (Px_INTEN[n]) bit is used to enable the interrupt for each of the corresponding input Px.n pin.
      * |        |          |Set bit to 1 also enable the pin wake-up function.
      * |        |          |When setting the FLIEN (Px_INTEN[n]) bit to 1 :
@@ -2481,7 +2481,7 @@ typedef struct
      * ---------------------------------------------------------------------------------------------------
      * |Bits    |Field     |Descriptions
      * | :----: | :----:   | :---- |
-     * |[n]     |SMTENn    |Port 0-5 Pin[n] Input Schmitt Trigger Enable Bit
+     * |[n]     |SMTENn    |Port A-F Pin[n] Input Schmitt Trigger Enable Bit
      * |        |          |0 = Px.n input schmitt trigger function Disabled.
      * |        |          |1 = Px.n input schmitt trigger function Enabled.
      * |        |          |Note:
@@ -2496,7 +2496,7 @@ typedef struct
      * ---------------------------------------------------------------------------------------------------
      * |Bits    |Field     |Descriptions
      * | :----: | :----:   | :---- |
-     * |[n]     |HSRENn    |Port 0-5 Pin[n] High Slew Rate Control
+     * |[n]     |HSRENn    |Port A-F Pin[n] High Slew Rate Control
      * |        |          |0 = Px.n output with basic slew rate.
      * |        |          |1 = Px.n output with higher slew rate.
      * |        |          |Note:
@@ -11644,7 +11644,7 @@ typedef struct
      * |Bits    |Field     |Descriptions
      * | :----: | :----:   | :---- |
      * |[0]     |SRBIST    |SRAM BIST Enable Bit (Write Protect)
-     * |        |          |This bit enables BIST test for SRAM located in address 0x2000_0000~0x2000_4FFF
+     * |        |          |This bit enables BIST test for SRAM located in address 0x2000_0000~0x2000_4FFF.
      * |        |          |0 = System SRAM BIST Disabled.
      * |        |          |1 = System SRAM BIST Enabled.
      * |        |          |Note: This bit is write protected. Refer to the SYS_REGLCTL register.
