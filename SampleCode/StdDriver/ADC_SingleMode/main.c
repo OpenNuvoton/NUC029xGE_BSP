@@ -40,7 +40,7 @@ void SYS_Init(void)
     /* Waiting for HIRC clock ready */
     CLK_WaitClockReady(CLK_STATUS_HIRCSTB_Msk);
 
-    /* Select HCLK clock source as HIRC and and HCLK clock divider as 1 */
+    /* Select HCLK clock source as HIRC and HCLK clock divider as 1 */
     CLK_SetHCLK(CLK_CLKSEL0_HCLKSEL_HIRC, CLK_CLKDIV0_HCLK(1));
 
     /* Enable HXT clock (external XTAL 12MHz) */
@@ -51,9 +51,6 @@ void SYS_Init(void)
 
     /* Set core clock as PLL_CLOCK from PLL */
     CLK_SetCoreClock(PLL_CLOCK);
-
-    /* Waiting for PLL clock ready */
-    CLK_WaitClockReady(CLK_STATUS_PLLSTB_Msk);
 
     /* Enable UART module clock */
     CLK_EnableModuleClock(UART0_MODULE);
@@ -113,6 +110,7 @@ void AdcSingleModeTest()
 {
     uint8_t  u8Option;
     int32_t  i32ConversionData;
+    uint32_t u32TimeOutCnt;
 
     printf("\n");
     printf("+----------------------------------------------------------------------+\n");
@@ -148,7 +146,15 @@ void AdcSingleModeTest()
             ADC_START_CONV(ADC);
 
             /* Wait ADC interrupt (g_u32AdcIntFlag will be set at IRQ_Handler function)*/
-            while(g_u32AdcIntFlag == 0);
+            u32TimeOutCnt = SystemCoreClock; /* 1 second time-out */
+            while(g_u32AdcIntFlag == 0)
+            {
+                if(--u32TimeOutCnt == 0)
+                {
+                    printf("Wait for ADC interrupt time-out!\n");
+                    return;
+                }
+            }
 
             /* Disable the ADC interrupt */
             ADC_DisableInt(ADC, ADC_ADF_INT);
@@ -179,7 +185,15 @@ void AdcSingleModeTest()
             ADC_START_CONV(ADC);
 
             /* Wait ADC interrupt (g_u32AdcIntFlag will be set at IRQ_Handler function)*/
-            while(g_u32AdcIntFlag == 0);
+            u32TimeOutCnt = SystemCoreClock; /* 1 second time-out */
+            while(g_u32AdcIntFlag == 0)
+            {
+                if(--u32TimeOutCnt == 0)
+                {
+                    printf("Wait for ADC interrupt time-out!\n");
+                    return;
+                }
+            }
 
             /* Disable the ADC interrupt */
             ADC_DisableInt(ADC, ADC_ADF_INT);

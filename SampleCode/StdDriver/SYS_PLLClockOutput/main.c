@@ -114,7 +114,7 @@ void SYS_PLL_Test(void)
     int32_t  i;
 
     /*---------------------------------------------------------------------------------------------------------*/
-    /* PLL clock configuration test                                                                             */
+    /* PLL clock configuration test                                                                            */
     /*---------------------------------------------------------------------------------------------------------*/
 
     printf("\n-------------------------[ Test PLL ]-----------------------------\n");
@@ -211,7 +211,7 @@ void UART0_Init()
 int32_t main(void)
 {
 
-    uint32_t u32data;
+    uint32_t u32data, u32TimeOutCnt;
 
     /* Unlock protected registers */
     SYS_UnlockReg();
@@ -227,7 +227,7 @@ int32_t main(void)
 
     printf("\n\nCPU @ %dHz\n", SystemCoreClock);
     printf("+----------------------------------------+\n");
-    printf("|     NUC029xGE System Driver Sample Code   |\n");
+    printf("|   NUC029xGE System Driver Sample Code  |\n");
     printf("+----------------------------------------+\n");
 
     if(M32(FLAG_ADDR) == SIGNATURE)
@@ -261,7 +261,7 @@ int32_t main(void)
         printf("Protected Address is Unlocked\n");
     }
 
-    /* Enable Brown-Out Detector and Low Voltage Reset function, and set Brown-Out Detector voltage 2.7V */
+    /* Enable Brown-Out Detector and set Brown-Out Detector voltage 2.7V */
     SYS_EnableBOD(SYS_BODCTL_BOD_INTERRUPT_EN, SYS_BODCTL_BODVL_2_7V);
 
     /* Enable BOD interrupt */
@@ -275,11 +275,12 @@ int32_t main(void)
     printf("\n\n  >>> Reset CPU <<<\n");
 
     /* Wait for message send out */
-    UART_WAIT_TX_EMPTY(UART0);
+    u32TimeOutCnt = SystemCoreClock; /* 1 second time-out */
+    UART_WAIT_TX_EMPTY(UART0)
+        if(--u32TimeOutCnt == 0) break;
 
     /* Select HCLK clock source as HIRC and HCLK source divider as 1 */
-    CLK->CLKSEL0 = (CLK->CLKSEL0 & (~CLK_CLKSEL0_HCLKSEL_Msk)) | CLK_CLKSEL0_HCLKSEL_HIRC;
-    CLK->CLKDIV0 = (CLK->CLKDIV0 & (~CLK_CLKDIV0_HCLKDIV_Msk)) | CLK_CLKDIV0_HCLK(1);
+    CLK_SetHCLK(CLK_CLKSEL0_HCLKSEL_HIRC, CLK_CLKDIV0_HCLK(1));
 
     /* Set PLL to Power down mode and HW will also clear PLLSTB bit in CLK_STATUS register */
     CLK_DisablePLL();

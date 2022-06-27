@@ -13,7 +13,6 @@
 #include <stdio.h>
 #include "NUC029xGE.h"
 
-#define PLLCTL_SETTING  CLK_PLLCTL_72MHz_HXT
 #define PLL_CLOCK       72000000
 
 static uint32_t slave_buff_addr;
@@ -54,7 +53,7 @@ void I2C0_IRQHandler(void)
 }
 
 /*---------------------------------------------------------------------------------------------------------*/
-/*  I2C TRx Callback Function                                                                               */
+/*  I2C TRx Callback Function                                                                              */
 /*---------------------------------------------------------------------------------------------------------*/
 void I2C_SlaveTRx(uint32_t u32Status)
 {
@@ -259,7 +258,7 @@ int32_t main(void)
     printf("| I2C Driver Sample Code(Slave) for access Slave         |\n");
     printf("|  Needs to work with I2C_Master sample code.            |\n");
     printf("| I2C Master (I2C0) <---> I2C Slave(I2C0)                |\n");
-    printf("| !! This sample code requires two borads to test !!     |\n");
+    printf("| !! This sample code requires two boards to test !!     |\n");
     printf("+--------------------------------------------------------+\n");
 
     printf("Configure I2C0 as a slave.\n");

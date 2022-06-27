@@ -37,7 +37,7 @@ int32_t main(void);
 
 
 /*---------------------------------------------------------------------------------------------------------*/
-/* Clear buffer funcion                                                                                    */
+/* Clear buffer function                                                                                   */
 /*---------------------------------------------------------------------------------------------------------*/
 void ClearBuf(uint32_t u32Addr, uint32_t u32Length, uint8_t u8Pattern)
 {
@@ -53,7 +53,7 @@ void ClearBuf(uint32_t u32Addr, uint32_t u32Length, uint8_t u8Pattern)
 }
 
 /*---------------------------------------------------------------------------------------------------------*/
-/* Bulid Src Pattern function                                                                              */
+/* Build Src Pattern function                                                                              */
 /*---------------------------------------------------------------------------------------------------------*/
 void BuildSrcPattern(uint32_t u32Addr, uint32_t u32Length)
 {
@@ -239,6 +239,8 @@ void UART02_IRQHandler(void)
 /*---------------------------------------------------------------------------------------------------------*/
 void PDMA_UART(int32_t i32option)
 {
+    uint32_t u32TimeOutCnt;
+
     /* Source data initiation */
     BuildSrcPattern((uint32_t)SrcArray, UART_TEST_LENGTH);
     ClearBuf((uint32_t)DestArray, UART_TEST_LENGTH, 0xFF);
@@ -312,7 +314,15 @@ void PDMA_UART(int32_t i32option)
     UART1->INTEN |= UART_INTEN_RXPDMAEN_Msk;
 
     /* Wait for PDMA operation finish */
-    while(IsTestOver == FALSE);
+    u32TimeOutCnt = SystemCoreClock; /* 1 second time-out */
+    while(IsTestOver == FALSE)
+    {
+        if(--u32TimeOutCnt == 0)
+        {
+            printf("Wait for PDMA operation finish time-out!\n");
+            break;
+        }
+    }
 
     /* Check PDMA status */
     if(IsTestOver == 2)
@@ -362,7 +372,7 @@ void SYS_Init(void)
     CLK_EnableModuleClock(UART0_MODULE);
     CLK_EnableModuleClock(UART1_MODULE);
 
-    /* Enable PDMA clock source */
+    /* Enable PDMA module clock */
     CLK_EnableModuleClock(PDMA_MODULE);
 
     /* Select UART module clock source as HXT and UART module clock divider as 1 */

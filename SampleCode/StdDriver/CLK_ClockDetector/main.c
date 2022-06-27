@@ -11,7 +11,7 @@
 #include "stdio.h"
 #include "NUC029xGE.h"
 
-#define PLLCTL_SETTING  CLK_PLLCTL_72MHz_HXT
+
 #define PLL_CLOCK       72000000
 
 
@@ -46,7 +46,7 @@ void CLKDIRC_IRQHandler(void)
         /* LXT clock fail interrupt is happened */
         printf("LXT Clock is stopped!\n");
 
-        /* Disable HXT clock fail interrupt */
+        /* Disable LXT clock fail interrupt */
         CLK->CLKDCTL &= ~(CLK_CLKDCTL_LXTFIEN_Msk | CLK_CLKDCTL_LXTFDEN_Msk);
 
         /* Write 1 to clear LXT Clock fail interrupt flag */
@@ -146,7 +146,7 @@ int32_t main(void)
 
     printf("\n\nCPU @ %d Hz\n", SystemCoreClock);
     printf("+-------------------------------------------------------------+\n");
-    printf("|              NUC029xGE Clock Detector Sample Code              |\n");
+    printf("|             NUC029xGE Clock Detector Sample Code            |\n");
     printf("+-------------------------------------------------------------+\n");
     printf("| 1. HXT clock fail interrupt will happen if HXT is stopped.  |\n");
     printf("|    HCLK clock source will be switched from HXT to HIRC.     |\n");

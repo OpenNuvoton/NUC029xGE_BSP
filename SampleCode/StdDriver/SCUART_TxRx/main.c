@@ -3,7 +3,7 @@
  * @version  V2.0
  * $Revision: 2 $
  * $Date: 16/10/25 4:30p $
- * @brief    Show Smartcrd UART by connecting PA.0 and PA.1 pins.
+ * @brief    Show Smartcard UART by connecting PA.0 and PA.1 pins.
  * @note
  * Copyright (C) 2016 Nuvoton Technology Corp. All rights reserved.
  ******************************************************************************/
@@ -42,7 +42,7 @@ void SYS_Init(void)
     /* Wait for HIRC clock ready */
     CLK_WaitClockReady(CLK_STATUS_HIRCSTB_Msk);
 
-    /* Select HCLK clock source as HIRC and and HCLK source divider as 1 */
+    /* Select HCLK clock source as HIRC and HCLK source divider as 1 */
     CLK_SetHCLK(CLK_CLKSEL0_HCLKSEL_HIRC, CLK_CLKDIV0_HCLK(1));
 
     /* Set PLL to Power-down mode and PLLSTB bit in CLK_STATUS register will be cleared by hardware.*/

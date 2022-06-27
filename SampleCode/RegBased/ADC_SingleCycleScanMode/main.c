@@ -35,7 +35,7 @@ void SYS_Init(void)
     /* Waiting for HIRC clock ready */
     while(!(CLK->STATUS & CLK_STATUS_HIRCSTB_Msk));
 
-    /* Select HCLK clock source as HIRC and and HCLK clock divider as 1 */
+    /* Select HCLK clock source as HIRC and HCLK clock divider as 1 */
     CLK->CLKSEL0 = (CLK->CLKSEL0 & ~CLK_CLKSEL0_HCLKSEL_Msk) | CLK_CLKSEL0_HCLKSEL_HIRC;
     CLK->CLKDIV0 = (CLK->CLKDIV0 & ~CLK_CLKDIV0_HCLKDIV_Msk) | CLK_CLKDIV0_HCLK(1);
 
@@ -59,7 +59,7 @@ void SYS_Init(void)
     /* Enable ADC module clock */
     CLK->APBCLK0 |= CLK_APBCLK0_ADCCKEN_Msk ;
 
-    /* Select UART module clock source as HXT and UART module clock divider as 1 */
+    /* Select UART module clock source as HXT */
     CLK->CLKSEL1 = (CLK->CLKSEL1 & ~CLK_CLKSEL1_UARTSEL_Msk) | CLK_CLKSEL1_UARTSEL_HXT;
 
     /* Select ADC module clock source */
@@ -116,6 +116,7 @@ void AdcSingleCycleScanModeTest()
     uint8_t  u8Option;
     uint32_t u32ChannelCount;
     int32_t  i32ConversionData;
+    uint32_t u32TimeOutCnt;
 
     printf("\n");
     printf("+----------------------------------------------------------------------+\n");
@@ -143,7 +144,15 @@ void AdcSingleCycleScanModeTest()
             ADC->ADCR |= ADC_ADCR_ADST_Msk;
 
             /* Wait conversion done */
-            while(!((ADC->ADSR0 & ADC_ADSR0_ADF_Msk) >> ADC_ADSR0_ADF_Pos));
+            u32TimeOutCnt = SystemCoreClock; /* 1 second time-out */
+            while(!((ADC->ADSR0 & ADC_ADSR0_ADF_Msk) >> ADC_ADSR0_ADF_Pos))
+            {
+                if(--u32TimeOutCnt == 0)
+                {
+                    printf("Wait for ADC conversion done time-out!\n");
+                    return;
+                }
+            }
 
             for(u32ChannelCount = 0; u32ChannelCount < 4; u32ChannelCount++)
             {
@@ -165,7 +174,15 @@ void AdcSingleCycleScanModeTest()
             ADC->ADCR |= ADC_ADCR_ADST_Msk;
 
             /* Wait conversion done */
-            while(!((ADC->ADSR0 & ADC_ADSR0_ADF_Msk) >> ADC_ADSR0_ADF_Pos));
+            u32TimeOutCnt = SystemCoreClock; /* 1 second time-out */
+            while(!((ADC->ADSR0 & ADC_ADSR0_ADF_Msk) >> ADC_ADSR0_ADF_Pos))
+            {
+                if(--u32TimeOutCnt == 0)
+                {
+                    printf("Wait for ADC conversion done time-out!\n");
+                    return;
+                }
+            }
 
             for(u32ChannelCount = 0; u32ChannelCount < 2; u32ChannelCount++)
             {
@@ -185,7 +202,7 @@ void AdcSingleCycleScanModeTest()
 /*---------------------------------------------------------------------------------------------------------*/
 /* MAIN function                                                                                           */
 /*---------------------------------------------------------------------------------------------------------*/
-main(void)
+int32_t main(void)
 {
 
     /* Unlock protected registers */

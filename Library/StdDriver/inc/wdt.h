@@ -54,6 +54,11 @@ extern "C"
 /*---------------------------------------------------------------------------------------------------------*/
 #define WDT_RESET_COUNTER_KEYWORD   (0x00005AA5)    /*!< Fill this value to WDT_RSTCNT register to free reset WDT counter */
 
+/*---------------------------------------------------------------------------------------------------------*/
+/* WDT Time-out Handler Constant Definitions                                                               */
+/*---------------------------------------------------------------------------------------------------------*/
+#define WDT_TIMEOUT                 SystemCoreClock /*!< WDT time-out counter (1 second time-out) */
+
 /*@}*/ /* end of group WDT_EXPORTED_CONSTANTS */
 
 
@@ -155,8 +160,11 @@ extern "C"
   */
 static __INLINE void WDT_Close(void)
 {
+    uint32_t u32TimeOutCnt = WDT_TIMEOUT;
+
     WDT->CTL = 0;
-    while(WDT->CTL & WDT_CTL_SYNC_Msk); // Wait disable WDTEN bit completed, it needs 2 * WDT_CLK.
+    while(WDT->CTL & WDT_CTL_SYNC_Msk)  // Wait disable WDTEN bit completed, it needs 2 * WDT_CLK.
+        if(--u32TimeOutCnt == 0) break;
 }
 
 /**
@@ -170,8 +178,11 @@ static __INLINE void WDT_Close(void)
   */
 static __INLINE void WDT_EnableInt(void)
 {
+    uint32_t u32TimeOutCnt = WDT_TIMEOUT;
+
     WDT->CTL |= WDT_CTL_INTEN_Msk;
-    while(WDT->CTL & WDT_CTL_SYNC_Msk); // Wait enable WDTEN bit completed, it needs 2 * WDT_CLK.
+    while(WDT->CTL & WDT_CTL_SYNC_Msk)  // Wait enable WDTEN bit completed, it needs 2 * WDT_CLK.
+        if(--u32TimeOutCnt == 0) break;
 }
 
 /**

@@ -11,7 +11,6 @@
 #include <stdio.h>
 #include "NUC029xGE.h"
 
-#define PLLCTL_SETTING  CLK_PLLCTL_72MHz_HXT
 #define PLL_CLOCK       72000000
 
 #define SLV_10BIT_ADDR (0x1E<<2)             //1111+0xx+r/w
@@ -44,7 +43,7 @@ void USCI_IRQHandler(void)
 }
 
 /*---------------------------------------------------------------------------------------------------------*/
-/*  UI2C0 TRx Callback Function                                                                        */
+/*  UI2C0 TRx Callback Function                                                                            */
 /*---------------------------------------------------------------------------------------------------------*/
 void UI2C_LB_SlaveTRx(uint32_t u32Status)
 {

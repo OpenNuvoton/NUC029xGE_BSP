@@ -20,6 +20,8 @@
   @{
 */
 
+int32_t g_FMC_i32ErrCode = 0; /*!< FMC global error code */
+
 /** @addtogroup FMC_EXPORTED_FUNCTIONS FMC Exported Functions
   @{
 */
@@ -54,7 +56,7 @@ void FMC_SetBootSource(int32_t i32BootSrc)
   *
   * @return   None
   *
-  * @details  This function will clear ISPEN bit of ISPCON to disable ISP function
+  * @details  This function will clear ISPEN bit of ISPCTL to disable ISP function
   *
   */
 void FMC_Close(void)
@@ -187,7 +189,7 @@ int32_t FMC_GetBootSource(void)
   *
   * @return   None
   *
-  * @details  ISPEN bit of ISPCON must be set before we can use ISP commands.
+  * @details  ISPEN bit of ISPCTL must be set before we can use ISP commands.
   *           Therefore, To use all FMC function APIs, user needs to call FMC_Open() first to enable ISP functions.
   *
   * @note     ISP functions are write-protected. user also needs to unlock it by calling SYS_UnlockReg() before using all ISP functions.
@@ -226,44 +228,57 @@ uint32_t FMC_ReadDataFlashBaseAddr(void)
   * @details     This function is used to read the settings of user configuration.
   *              if u32Count = 1, Only CONFIG0 will be returned to the buffer specified by u32Config.
   *              if u32Count = 2, Both CONFIG0 and CONFIG1 will be returned.
+  *
+  * @note        Global error code g_FMC_i32ErrCode
+  *              -1  Read failed
   */
 int32_t FMC_ReadConfig(uint32_t *u32Config, uint32_t u32Count)
 {
     int32_t i;
+    int32_t i32ret = 0;
 
     for(i = 0; i < u32Count; i++)
+    {
         u32Config[i] = FMC_Read(FMC_CONFIG_BASE + i * 4);
+        if (g_FMC_i32ErrCode != 0) i32ret = -1;
+    }
 
-    return 0;
+    return i32ret;
 }
 
 
 /**
-  * @brief    Write User Configuration
+  * @brief      Write User Configuration
   *
   * @param[in]  u32Config The word buffer to store the User Configuration data.
   * @param[in]  u32Count The word count to program to User Configuration.
   *
-  * @retval     0 Success
-  * @retval    -1 Failed
+  * @retval      0 Success
+  * @retval     -1 Failed
   *
-  * @details  User must enable User Configuration update before writing it.
-  *           User must erase User Configuration before writing it.
-  *           User Configuration is also be page erase. User needs to backup necessary data
-  *           before erase User Configuration.
+  * @details    User must enable User Configuration update before writing it.
+  *             User must erase User Configuration before writing it.
+  *             User Configuration is also be page erase. User needs to backup necessary data
+  *             before erase User Configuration.
+  *
+  * @note       Global error code g_FMC_i32ErrCode
+  *             -1  Program failed or time-out
   */
 int32_t FMC_WriteConfig(uint32_t *u32Config, uint32_t u32Count)
 {
     int32_t i;
+    int32_t i32ret = 0;
 
     for(i = 0; i < u32Count; i++)
     {
         FMC_Write(FMC_CONFIG_BASE + i * 4, u32Config[i]);
-        if(FMC_Read(FMC_CONFIG_BASE + i * 4) != u32Config[i])
-            return -1;
+        if (g_FMC_i32ErrCode != 0) i32ret = -1;
+
+        if(FMC_Read(FMC_CONFIG_BASE + i * 4) != u32Config[i]) i32ret = -1;
+        if (g_FMC_i32ErrCode != 0) i32ret = -1;
     }
 
-    return 0;
+    return i32ret;
 }
 
 

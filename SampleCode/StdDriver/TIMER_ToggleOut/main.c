@@ -90,9 +90,9 @@ int main(void)
     UART0_Init();
 
     printf("\n\nCPU @ %d Hz\n", SystemCoreClock);
-    printf("+--------------------------------------------+\n");
-    printf("|    Timer Periodic Interrupt Sample Code    |\n");
-    printf("+--------------------------------------------+\n\n");
+    printf("+---------------------------------------+\n");
+    printf("|    Timer Toggle-output Sample Code    |\n");
+    printf("+---------------------------------------+\n\n");
 
     printf("This sample code will set Timer0 frequency 1000 Hz and generate 500Hz toggle output to T0(PD.1) pin.\n");
 

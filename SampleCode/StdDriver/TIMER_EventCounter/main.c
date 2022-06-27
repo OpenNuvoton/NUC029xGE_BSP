@@ -3,7 +3,7 @@
  * @version  V3.00
  * $Revision: 3 $
  * $Date: 17/05/04 1:54p $
- * @brief    Implement timer1 event counter function to count the external input event.
+ * @brief    Implement timer2 event counter function to count the external input event.
  * @note
  * Copyright (C) 2016 Nuvoton Technology Corp. All rights reserved.
  ******************************************************************************/
@@ -72,7 +72,7 @@ void SYS_Init(void)
     /* Waiting for clock ready */
     CLK_WaitClockReady(CLK_STATUS_HXTSTB_Msk);
 
-    /* Set core clock as PLL_CLOCK from PLL and SysTick source to HCLK/2*/
+    /* Set core clock as PLL_CLOCK from PLL and SysTick source to HCLK/2 */
     CLK_SetCoreClock(PLL_CLOCK);
     CLK_SetSysTickClockSrc(CLK_CLKSEL0_STCLKSEL_HCLK_DIV2);
 
@@ -114,6 +114,7 @@ void UART0_Init(void)
 int main(void)
 {
     volatile uint32_t u32InitCount;
+    uint32_t u32TimeOutCnt;
 
     /* Unlock protected registers */
     SYS_UnlockReg();
@@ -167,7 +168,7 @@ int main(void)
 
         /* Stop Timer2 counting */
         TIMER_Close(TIMER2);
-        while(1);
+        return -1;
     }
 
     printf("Start to check Timer2 counter value ......\n\n");
@@ -176,14 +177,16 @@ int main(void)
     GenerateEventCounterSource(3, 1, 1);
 
     /* To check if counter value of Timer2 should be 1 */
-    while(TIMER_GetCounter(TIMER2) == 0);
+    u32TimeOutCnt = SystemCoreClock; /* 1 second time-out */
+    while(TIMER_GetCounter(TIMER2) == 0)
+        if(--u32TimeOutCnt == 0) break;
     if(TIMER_GetCounter(TIMER2) != 1)
     {
         printf("Get unexpected counter value. (%d)\n", TIMER_GetCounter(TIMER2));
 
         /* Stop Timer2 counting */
         TIMER_Close(TIMER2);
-        while(1);
+        return -1;
     }
 
     /* To generate remains counts to T2 pin */

@@ -42,7 +42,7 @@ void SYS_Init(void)
     /* Waiting for HIRC clock ready */
     while(!(CLK->STATUS & CLK_STATUS_HIRCSTB_Msk));
 
-    /* Select HCLK clock source as HIRC and and HCLK clock divider as 1 */
+    /* Select HCLK clock source as HIRC and HCLK clock divider as 1 */
     CLK->CLKSEL0 = (CLK->CLKSEL0 & ~CLK_CLKSEL0_HCLKSEL_Msk) | CLK_CLKSEL0_HCLKSEL_HIRC;
     CLK->CLKDIV0 = (CLK->CLKDIV0 & ~CLK_CLKDIV0_HCLKDIV_Msk) | CLK_CLKDIV0_HCLK(1);
 
@@ -66,7 +66,7 @@ void SYS_Init(void)
     /* Enable ADC module clock */
     CLK->APBCLK0 |= CLK_APBCLK0_ADCCKEN_Msk ;
 
-    /* Select UART module clock source as HXT and UART module clock divider as 1 */
+    /* Select UART module clock source as HXT */
     CLK->CLKSEL1 = (CLK->CLKSEL1 & ~CLK_CLKSEL1_UARTSEL_Msk) | CLK_CLKSEL1_UARTSEL_HXT;
 
     /* Select ADC module clock source */
@@ -120,6 +120,8 @@ void UART0_Init()
 /*---------------------------------------------------------------------------------------------------------*/
 void AdcResultMonitorTest()
 {
+    uint32_t u32TimeOutCnt;
+
     printf("\n");
     printf("+----------------------------------------------------------------------+\n");
     printf("|           ADC compare function (result monitor) sample code          |\n");
@@ -169,7 +171,15 @@ void AdcResultMonitorTest()
     ADC->ADCR |= ADC_ADCR_ADST_Msk;
 
     /* Wait ADC compare interrupt */
-    while((g_u32AdcCmp0IntFlag == 0) && (g_u32AdcCmp1IntFlag == 0));
+    u32TimeOutCnt = SystemCoreClock; /* 1 second time-out */
+    while((g_u32AdcCmp0IntFlag == 0) && (g_u32AdcCmp1IntFlag == 0))
+    {
+        if(--u32TimeOutCnt == 0)
+        {
+            printf("Wait for ADC compare interrupt time-out!\n");
+            return;
+        }
+    }
 
     /* Stop A/D conversion */
     ADC->ADCR &= ~ADC_ADCR_ADST_Msk;
@@ -213,7 +223,7 @@ void ADC_IRQHandler(void)
 /*---------------------------------------------------------------------------------------------------------*/
 /* MAIN function                                                                                           */
 /*---------------------------------------------------------------------------------------------------------*/
-main(void)
+int32_t main(void)
 {
 
     /* Unlock protected registers */

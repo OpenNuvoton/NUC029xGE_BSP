@@ -1,6 +1,6 @@
 /******************************************************************************
  * @file     usbd.h
- * @brief    M451 series USB driver header file
+ * @brief    USB driver header file
  * @version  2.0.0
  * @date     10, January, 2014
  *
@@ -384,7 +384,7 @@ extern const S_USBD_INFO_T gsInfo;
 /**
   * @brief      Stop USB transaction of the specified endpoint ID
   *
-  * @param[in]  ep The USB endpoint ID. M451 Series supports 8 hardware endpoint ID. This parameter could be 0 ~ 7.
+  * @param[in]  ep The USB endpoint ID. Supports 8 hardware endpoint ID. This parameter could be 0 ~ 7.
   *
   * @return     None
   *
@@ -396,7 +396,7 @@ extern const S_USBD_INFO_T gsInfo;
 /**
   * @brief      Set USB DATA1 PID for the specified endpoint ID
   *
-  * @param[in]  ep The USB endpoint ID. M451 Series supports 8 hardware endpoint ID. This parameter could be 0 ~ 7.
+  * @param[in]  ep The USB endpoint ID. Supports 8 hardware endpoint ID. This parameter could be 0 ~ 7.
   *
   * @return     None
   *
@@ -409,7 +409,7 @@ extern const S_USBD_INFO_T gsInfo;
 /**
   * @brief      Set USB DATA0 PID for the specified endpoint ID
   *
-  * @param[in]  ep The USB endpoint ID. M451 Series supports 8 hardware endpoint ID. This parameter could be 0 ~ 7.
+  * @param[in]  ep The USB endpoint ID. Supports 8 hardware endpoint ID. This parameter could be 0 ~ 7.
   *
   * @return     None
   *
@@ -422,7 +422,7 @@ extern const S_USBD_INFO_T gsInfo;
 /**
   * @brief      Set USB payload size (IN data)
   *
-  * @param[in]  ep The USB endpoint ID. M451 Series supports 8 hardware endpoint ID. This parameter could be 0 ~ 7.
+  * @param[in]  ep The USB endpoint ID. Supports 8 hardware endpoint ID. This parameter could be 0 ~ 7.
   *
   * @param[in]  size The transfer length.
   *
@@ -436,7 +436,7 @@ extern const S_USBD_INFO_T gsInfo;
 /**
   * @brief      Get USB payload size (OUT data)
   *
-  * @param[in]  ep The USB endpoint ID. M451 Series supports 8 endpoint ID. This parameter could be 0 ~ 7.
+  * @param[in]  ep The USB endpoint ID. Supports 8 endpoint ID. This parameter could be 0 ~ 7.
   *
   * @return     The value of USB_MXPLDx register.
   *
@@ -448,7 +448,7 @@ extern const S_USBD_INFO_T gsInfo;
 /**
   * @brief      Configure endpoint
   *
-  * @param[in]  ep The USB endpoint ID. M451 Series supports 8 hardware endpoint ID. This parameter could be 0 ~ 7.
+  * @param[in]  ep The USB endpoint ID. Supports 8 hardware endpoint ID. This parameter could be 0 ~ 7.
   *
   * @param[in]  config The USB configuration.
   *
@@ -462,7 +462,7 @@ extern const S_USBD_INFO_T gsInfo;
 /**
   * @brief      Set USB endpoint buffer
   *
-  * @param[in]  ep The USB endpoint ID. M451 Series supports 8 hardware endpoint ID. This parameter could be 0 ~ 7.
+  * @param[in]  ep The USB endpoint ID. Supports 8 hardware endpoint ID. This parameter could be 0 ~ 7.
   *
   * @param[in]  offset The SRAM offset.
   *
@@ -476,7 +476,7 @@ extern const S_USBD_INFO_T gsInfo;
 /**
   * @brief      Get the offset of the specified USB endpoint buffer
   *
-  * @param[in]  ep The USB endpoint ID. M451 Series supports 8 hardware endpoint ID. This parameter could be 0 ~ 7.
+  * @param[in]  ep The USB endpoint ID. Supports 8 hardware endpoint ID. This parameter could be 0 ~ 7.
   *
   * @return     The offset of the specified endpoint buffer.
   *
@@ -488,7 +488,7 @@ extern const S_USBD_INFO_T gsInfo;
 /**
   * @brief       Set USB endpoint stall state
   *
-  * @param[in]   ep  The USB endpoint ID. M451 Series supports 8 hardware endpoint ID. This parameter could be 0 ~ 7.
+  * @param[in]   ep  The USB endpoint ID. Supports 8 hardware endpoint ID. This parameter could be 0 ~ 7.
   *
   * @return      None
   *
@@ -500,7 +500,7 @@ extern const S_USBD_INFO_T gsInfo;
 /**
   * @brief       Clear USB endpoint stall state
   *
-  * @param[in]   ep  The USB endpoint ID. M451 Series supports 8 hardware endpoint ID. This parameter could be 0 ~ 7.
+  * @param[in]   ep  The USB endpoint ID. Supports 8 hardware endpoint ID. This parameter could be 0 ~ 7.
   *
   * @return      None
   *
@@ -511,7 +511,7 @@ extern const S_USBD_INFO_T gsInfo;
 /**
   * @brief       Get USB endpoint stall state
   *
-  * @param[in]   ep  The USB endpoint ID. M451 Series supports 8 hardware endpoint ID. This parameter could be 0 ~ 7.
+  * @param[in]   ep  The USB endpoint ID. Supports 8 hardware endpoint ID. This parameter could be 0 ~ 7.
   *
   * @retval      0      USB endpoint is not stalled.
   * @retval      Others USB endpoint is stalled.

@@ -12,6 +12,7 @@
 
 
 #define PLL_CLOCK           72000000
+int32_t g_FMC_i32ErrCode;
 
 
 void SYS_Init(void)
@@ -116,7 +117,7 @@ uint32_t GetPDMAChecksum(uint32_t u32Address, uint32_t u32Size)
         if(loop++ > (SystemCoreClock / 100))
         {
             printf("\n[PDMA transfer time-out]\n");
-            while(1);
+            return 0;
         }
     }
 

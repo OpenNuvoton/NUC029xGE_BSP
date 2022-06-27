@@ -14,7 +14,7 @@
 #include <string.h>
 #include "NUC029xGE.h"
 
-#define PLLCON_SETTING      CLK_PLLCTL_72MHz_HXT
+#define PLLCTL_SETTING      CLK_PLLCTL_72MHz_HXT
 #define PLL_CLOCK           72000000
 
 volatile uint32_t g_u32TxValue;
@@ -64,7 +64,7 @@ int32_t main(void)
     /* Set TX FIFO threshold to 2 and RX FIFO threshold to 1 */
     SPI1->FIFOCTL = SPII2S_FIFO_TX_LEVEL_WORD_2 | SPII2S_FIFO_RX_LEVEL_WORD_2;
 
-    /* I2S peripheral clock rate is equal to PCLK1 clock rate. */
+    /* I2S peripheral clock rate is equal to PCLK0 clock rate. */
     SPI1->I2SCLK = 0;
 
     /* Enable I2S */
@@ -132,7 +132,7 @@ void SYS_Init(void)
     CLK->PWRCTL |= CLK_PWRCTL_HXTEN_Msk;
 
     /* Enable PLL and Set PLL frequency */
-    CLK->PLLCTL = PLLCON_SETTING;
+    CLK->PLLCTL = PLLCTL_SETTING;
 
     /* Waiting for clock ready */
     while(!(CLK->STATUS & CLK_STATUS_PLLSTB_Msk));

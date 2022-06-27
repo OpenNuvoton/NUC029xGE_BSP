@@ -159,7 +159,7 @@ int main(void)
     printf("* Please connect BS616LV4017 SRAM to EBI bank0 before accessing !! *\n");
     printf("* EBI pins settings:                                               *\n");
     printf("*   - AD0 ~ AD3 on PA.0 ~ PA.3                                     *\n");
-    printf("*   - AD4 ~ AD7 on PB.7 ~ PB.4                                 	   *\n");
+    printf("*   - AD4 ~ AD7 on PB.7 ~ PB.4                                     *\n");
     printf("*   - AD8 ~ AD15 on PC.0 ~ PC.7                                    *\n");
     printf("*   - AD16 ~ AD19 on PD.12 ~ PD.15                                 *\n");
     printf("*   - nWR on PD.2                                                  *\n");
@@ -214,7 +214,7 @@ uint32_t volatile u32IsTestOver = 0;
  *
  * @return      None
  *
- * @details     The DMA default IRQ, declared in startup_nuc400series.s.
+ * @details     The DMA default IRQ, declared in startup_NUC029xGE.s.
  */
 void PDMA_IRQHandler(void)
 {

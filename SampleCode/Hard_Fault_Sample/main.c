@@ -72,14 +72,14 @@ void SYS_Init(void)
     /* Wait for HXT clock ready */
     CLK_WaitClockReady(CLK_STATUS_HXTSTB_Msk);
 
-    /* Set core clock as PLL_CLOCK from PLL */
+    /* Set core clock as HCLK_CLOCK from PLL */
     CLK_SetCoreClock(HCLK_CLOCK);
 
-    /* Enable UART module clock */
+    /* Enable UART0 and TIMER1 module clock */
     CLK_EnableModuleClock(UART0_MODULE);
     CLK_EnableModuleClock(TMR1_MODULE);
 
-    /* Select UART module clock source as HXT and UART module clock divider as 1 */
+    /* Select UART0 and TIMER1 module clock source */
     CLK_SetModuleClock(UART0_MODULE, CLK_CLKSEL1_UARTSEL_HXT, CLK_CLKDIV0_UART(1));
 
     CLK_SetModuleClock(TMR1_MODULE, CLK_CLKSEL1_TMR1SEL_HIRC, 0);

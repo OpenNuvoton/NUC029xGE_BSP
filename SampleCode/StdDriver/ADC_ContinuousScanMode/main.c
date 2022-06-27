@@ -35,7 +35,7 @@ void SYS_Init(void)
     /* Waiting for HIRC clock ready */
     CLK_WaitClockReady(CLK_STATUS_HIRCSTB_Msk);
 
-    /* Select HCLK clock source as HIRC and and HCLK clock divider as 1 */
+    /* Select HCLK clock source as HIRC and HCLK clock divider as 1 */
     CLK_SetHCLK(CLK_CLKSEL0_HCLKSEL_HIRC, CLK_CLKDIV0_HCLK(1));
 
     /* Enable HXT clock (external XTAL 12MHz) */
@@ -46,9 +46,6 @@ void SYS_Init(void)
 
     /* Set core clock as PLL_CLOCK from PLL */
     CLK_SetCoreClock(PLL_CLOCK);
-
-    /* Waiting for PLL clock ready */
-    CLK_WaitClockReady(CLK_STATUS_PLLSTB_Msk);
 
     /* Enable UART module clock */
     CLK_EnableModuleClock(UART0_MODULE);
@@ -136,6 +133,7 @@ void AdcContScanModeTest()
     uint8_t  u8Option;
     uint32_t u32ChannelCount;
     int32_t  i32ConversionData;
+    uint32_t u32TimeOutCnt;
 
     printf("\n\nConversion rate: %d samples/second\n", ADC_GetConversionRate());
     printf("\n");
@@ -168,7 +166,15 @@ void AdcContScanModeTest()
             ADC_START_CONV(ADC);
 
             /* Wait conversion done */
-            while(!ADC_GET_INT_FLAG(ADC, ADC_ADF_INT));
+            u32TimeOutCnt = SystemCoreClock; /* 1 second time-out */
+            while(!ADC_GET_INT_FLAG(ADC, ADC_ADF_INT))
+            {
+                if(--u32TimeOutCnt == 0)
+                {
+                    printf("Wait for ADC conversion done time-out!\n");
+                    return;
+                }
+            }
 
             /* Clear the A/D interrupt flag for safe */
             ADC_CLR_INT_FLAG(ADC, ADC_ADF_INT);
@@ -180,7 +186,15 @@ void AdcContScanModeTest()
             }
 
             /* Wait conversion done */
-            while(!ADC_GET_INT_FLAG(ADC, ADC_ADF_INT));
+            u32TimeOutCnt = SystemCoreClock; /* 1 second time-out */
+            while(!ADC_GET_INT_FLAG(ADC, ADC_ADF_INT))
+            {
+                if(--u32TimeOutCnt == 0)
+                {
+                    printf("Wait for ADC conversion done time-out!\n");
+                    return;
+                }
+            }
 
             /* Stop A/D conversion */
             ADC_STOP_CONV(ADC);
@@ -211,7 +225,15 @@ void AdcContScanModeTest()
             ADC_START_CONV(ADC);
 
             /* Wait conversion done */
-            while(!ADC_GET_INT_FLAG(ADC, ADC_ADF_INT));
+            u32TimeOutCnt = SystemCoreClock; /* 1 second time-out */
+            while(!ADC_GET_INT_FLAG(ADC, ADC_ADF_INT))
+            {
+                if(--u32TimeOutCnt == 0)
+                {
+                    printf("Wait for ADC conversion done time-out!\n");
+                    return;
+                }
+            }
 
             /* Clear the A/D interrupt flag for safe */
             ADC_CLR_INT_FLAG(ADC, ADC_ADF_INT);
@@ -223,7 +245,15 @@ void AdcContScanModeTest()
             }
 
             /* Wait conversion done */
-            while(!ADC_GET_INT_FLAG(ADC, ADC_ADF_INT));
+            u32TimeOutCnt = SystemCoreClock; /* 1 second time-out */
+            while(!ADC_GET_INT_FLAG(ADC, ADC_ADF_INT))
+            {
+                if(--u32TimeOutCnt == 0)
+                {
+                    printf("Wait for ADC conversion done time-out!\n");
+                    return;
+                }
+            }
 
             /* Stop A/D conversion */
             ADC_STOP_CONV(ADC);

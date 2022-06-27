@@ -306,7 +306,9 @@ extern "C"
 /**
  * @brief       Set De-bounce Sampling Cycle Time
  *
- * @param[in]   u32ClkSrc   The de-bounce counter clock source. It could be GPIO_DBCTL_DBCLKSRC_HCLK or GPIO_DBCTL_DBCLKSRC_LIRC.
+ * @param[in]   u32ClkSrc   The de-bounce counter clock source. It could be
+ *                            - \ref GPIO_DBCTL_DBCLKSRC_HCLK
+ *                            - \ref GPIO_DBCTL_DBCLKSRC_LIRC
  * @param[in]   u32ClkSel   The de-bounce sampling cycle selection. It could be
  *                            - \ref GPIO_DBCTL_DBCLKSEL_1
  *                            - \ref GPIO_DBCTL_DBCLKSEL_2

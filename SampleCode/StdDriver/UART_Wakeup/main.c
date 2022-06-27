@@ -3,7 +3,7 @@
  * @version  V3.00
  * $Revision: 2 $
  * $Date: 16/10/25 4:31p $
- * @brief    Show how to wake up system form Power-down mode by UART interrupt.
+ * @brief    Show how to wake up system from Power-down mode by UART interrupt.
  * @note
  * Copyright (C) 2016 Nuvoton Technology Corp. All rights reserved.
  *
@@ -30,8 +30,12 @@ void UART_PowerDownWakeUpTest(void);
 /*---------------------------------------------------------------------------------------------------------*/
 void PowerDownFunction(void)
 {
+    uint32_t u32TimeOutCnt;
+
     /* Check if all the debug messages are finished */
-    UART_WAIT_TX_EMPTY(UART0);
+    u32TimeOutCnt = SystemCoreClock; /* 1 second time-out */
+    UART_WAIT_TX_EMPTY(UART0)
+        if(--u32TimeOutCnt == 0) break;
 
     /* Enter to Power-down mode */
     CLK_PowerDown();
@@ -149,13 +153,15 @@ int32_t main(void)
 /*---------------------------------------------------------------------------------------------------------*/
 void UART1_IRQHandler(void)
 {
-    uint32_t u32Data;
+    uint32_t u32Data, u32TimeOutCnt;
 
     if(UART_GET_INT_FLAG(UART1, UART_INTSTS_WKINT_Msk))     /* UART wake-up interrupt flag */
     {
         UART_ClearIntFlag(UART1, UART_INTSTS_WKINT_Msk);
         printf("UART wake-up.\n");
-        UART_WAIT_TX_EMPTY(UART0);
+        u32TimeOutCnt = SystemCoreClock; /* 1 second time-out */
+        UART_WAIT_TX_EMPTY(UART0)
+            if(--u32TimeOutCnt == 0) break;
     }
     else if(UART_GET_INT_FLAG(UART1, UART_INTSTS_RDAINT_Msk | UART_INTSTS_RXTOINT_Msk))  /* UART receive data available flag */
     {
@@ -176,7 +182,7 @@ void UART1_IRQHandler(void)
 /*---------------------------------------------------------------------------------------------------------*/
 void UART_CTSWakeUp(void)
 {
-    /* Enable UART nCTS wake-up frunction */
+    /* Enable UART nCTS wake-up function */
     UART1->WKCTL |= UART_WKCTL_WKCTSEN_Msk;
 
     printf("System enter to Power-down mode.\n");
@@ -188,7 +194,7 @@ void UART_CTSWakeUp(void)
 /*---------------------------------------------------------------------------------------------------------*/
 void UART_DataWakeUp(void)
 {
-    /* Enable UART data wake-up frunction */
+    /* Enable UART data wake-up function */
     UART1->WKCTL |= UART_WKCTL_WKDATEN_Msk;
 
     /* Set UART data wake-up start bit compensation value.
@@ -207,9 +213,15 @@ void UART_DataWakeUp(void)
 /*---------------------------------------------------------------------------------------------------------*/
 void UART_RxThresholdWakeUp(void)
 {
+    uint32_t u32TimeOutCnt;
+
     /* Wait data transmission is finished and select UART clock source as LXT */
-    while((UART0->FIFOSTS & UART_FIFOSTS_TXEMPTYF_Msk) == 0);
-    while((UART0->FIFOSTS & UART_FIFOSTS_RXIDLE_Msk) == 0);
+    u32TimeOutCnt = SystemCoreClock; /* 1 second time-out */
+    while((UART0->FIFOSTS & UART_FIFOSTS_TXEMPTYF_Msk) == 0)
+        if(--u32TimeOutCnt == 0) break;
+    u32TimeOutCnt = SystemCoreClock; /* 1 second time-out */
+    while((UART0->FIFOSTS & UART_FIFOSTS_RXIDLE_Msk) == 0)
+        if(--u32TimeOutCnt == 0) break;
     CLK_SetModuleClock(UART0_MODULE, CLK_CLKSEL1_UARTSEL_LXT, CLK_CLKDIV0_UART(1));
 
     /* Set UART baud rate and baud rate compensation */
@@ -218,7 +230,7 @@ void UART_RxThresholdWakeUp(void)
     UART_Open(UART1, 9600);
     UART1->BRCOMP = 0xA5;
 
-    /* Enable UART Rx Threshold and Rx time-out wake-up frunction */
+    /* Enable UART Rx Threshold and Rx time-out wake-up function */
     UART1->WKCTL |= UART_WKCTL_WKRFRTEN_Msk | UART_WKCTL_WKTOUTEN_Msk;
 
     /* Set Rx FIFO interrupt trigger level */
@@ -237,9 +249,15 @@ void UART_RxThresholdWakeUp(void)
 /*---------------------------------------------------------------------------------------------------------*/
 void UART_RS485WakeUp(void)
 {
+    uint32_t u32TimeOutCnt;
+
     /* Wait data transmission is finished and select UART clock source as LXT */
-    while((UART0->FIFOSTS & UART_FIFOSTS_TXEMPTYF_Msk) == 0);
-    while((UART0->FIFOSTS & UART_FIFOSTS_RXIDLE_Msk) == 0);
+    u32TimeOutCnt = SystemCoreClock; /* 1 second time-out */
+    while((UART0->FIFOSTS & UART_FIFOSTS_TXEMPTYF_Msk) == 0)
+        if(--u32TimeOutCnt == 0) break;
+    u32TimeOutCnt = SystemCoreClock; /* 1 second time-out */
+    while((UART0->FIFOSTS & UART_FIFOSTS_RXIDLE_Msk) == 0)
+        if(--u32TimeOutCnt == 0) break;
     CLK_SetModuleClock(UART0_MODULE, CLK_CLKSEL1_UARTSEL_LXT, CLK_CLKDIV0_UART(1));
 
     /* Set UART baud rate and baud rate compensation */
@@ -254,7 +272,7 @@ void UART_RS485WakeUp(void)
     /* Enable parity source selection function */
     UART1->LINE |= (UART_LINE_PSS_Msk | UART_LINE_PBE_Msk);
 
-    /* Enable UART RS485 address match, Rx Threshold and Rx time-out wake-up frunction */
+    /* Enable UART RS485 address match, Rx Threshold and Rx time-out wake-up function */
     UART1->WKCTL |= UART_WKCTL_WKRFRTEN_Msk | UART_WKCTL_WKRS485EN_Msk | UART_WKCTL_WKTOUTEN_Msk;
 
     /* Enable UART Rx time-out function */
@@ -330,6 +348,4 @@ void UART_PowerDownWakeUpTest(void)
 
     /* Disable UART Interrupt */
     UART_DisableInt(UART1, UART_INTEN_WKIEN_Msk | UART_INTEN_RDAIEN_Msk | UART_INTEN_RXTOIEN_Msk);
-    NVIC_DisableIRQ(UART1_IRQn);
-
 }

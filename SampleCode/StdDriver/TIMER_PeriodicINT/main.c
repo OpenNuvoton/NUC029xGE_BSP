@@ -251,7 +251,7 @@ int main(void)
                     (g_au32TMRINTCount[3] > (g_au32TMRINTCount[0] * 8 + 1)) || (g_au32TMRINTCount[3] < (g_au32TMRINTCount[0] * 8 - 1)))
             {
                 printf("*** FAIL ***\n");
-                while(1);
+                return -1;
             }
         }
     }

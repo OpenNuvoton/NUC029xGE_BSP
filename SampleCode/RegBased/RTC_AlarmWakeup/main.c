@@ -11,7 +11,7 @@
 #include "NUC029xGE.h"
 
 
-#define PLLCON_SETTING  CLK_PLLCTL_72MHz_HXT
+#define PLLCTL_SETTING  CLK_PLLCTL_72MHz_HXT
 #define PLL_CLOCK       72000000
 
 
@@ -27,10 +27,14 @@ volatile uint8_t g_u8IsRTCAlarmINT = 0;
 /*---------------------------------------------------------------------------------------------------------*/
 void PowerDownFunction(void)
 {
+    uint32_t u32TimeOutCnt;
+
     printf("\nSystem enter to power-down mode ...\n\n");
 
     /* To check if all the debug messages are finished */
-    while(IsDebugFifoEmpty() == 0);
+    u32TimeOutCnt = SystemCoreClock; /* 1 second time-out */
+    while(IsDebugFifoEmpty() == 0)
+        if(--u32TimeOutCnt == 0) break;
 
     SCB->SCR = 4;
 
@@ -83,7 +87,7 @@ void SYS_Init(void)
     CLK->PWRCTL |= CLK_PWRCTL_HXTEN_Msk | CLK_PWRCTL_LXTEN_Msk;
 
     /* Enable PLL and Set PLL frequency */
-    CLK->PLLCTL = PLLCON_SETTING;
+    CLK->PLLCTL = PLLCTL_SETTING;
 
     /* Waiting for clock ready */
     while(!(CLK->STATUS & CLK_STATUS_PLLSTB_Msk));
@@ -130,6 +134,8 @@ void UART0_Init(void)
 /*---------------------------------------------------------------------------------------------------------*/
 int main(void)
 {
+    uint32_t u32TimeOutCnt;
+
     /* Unlock protected registers */
     SYS_UnlockReg();
 
@@ -154,7 +160,16 @@ int main(void)
     if(RTC->INIT != RTC_INIT_ACTIVE_Msk)
     {
         RTC->INIT = RTC_INIT_KEY;
-        while(RTC->INIT != RTC_INIT_ACTIVE_Msk);
+        u32TimeOutCnt = SystemCoreClock; /* 1 second time-out */
+        while(RTC->INIT != RTC_INIT_ACTIVE_Msk)
+        {
+            if(--u32TimeOutCnt == 0)
+            {
+                printf("\n RTC initial fail!!");
+                printf("\n Please check h/w setting!!");
+                return -1;
+            }
+        }
     }
 
     /* Setting RTC current date/time */

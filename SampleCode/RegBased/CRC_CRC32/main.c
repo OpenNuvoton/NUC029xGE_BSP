@@ -11,9 +11,10 @@
 #include "NUC029xGE.h"
 
 
-#define PLLCON_SETTING  CLK_PLLCTL_72MHz_HXT
+#define PLLCTL_SETTING  CLK_PLLCTL_72MHz_HXT
 #define PLL_CLOCK       72000000
 
+int32_t g_FMC_i32ErrCode;
 
 void SYS_Init(void)
 {
@@ -36,7 +37,7 @@ void SYS_Init(void)
     CLK->PWRCTL |= CLK_PWRCTL_HXTEN_Msk;
 
     /* Enable PLL and Set PLL frequency */
-    CLK->PLLCTL = PLLCON_SETTING;
+    CLK->PLLCTL = PLLCTL_SETTING;
 
     /* Waiting for clock ready */
     while(!(CLK->STATUS & CLK_STATUS_PLLSTB_Msk));
@@ -128,7 +129,7 @@ uint32_t GetPDMAChecksum(uint32_t u32Address, uint32_t u32Size)
         if(loop++ > (SystemCoreClock / 100))
         {
             printf("\n[PDMA transfer time-out]\n");
-            while(1);
+            return 0;
         }
     }
 

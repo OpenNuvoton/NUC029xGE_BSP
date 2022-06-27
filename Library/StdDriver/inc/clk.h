@@ -162,7 +162,7 @@ extern "C"
 
 
 /*---------------------------------------------------------------------------------------------------------*/
-/*  CLKDIV0 constant definitions.                                                                           */
+/*  CLKDIV0 constant definitions.                                                                          */
 /*---------------------------------------------------------------------------------------------------------*/
 #define CLK_CLKDIV0_HCLK(x)     (((x)-1) << CLK_CLKDIV0_HCLKDIV_Pos) /*!< CLKDIV0 Setting for HCLK clock divider. It could be 1~16 */
 #define CLK_CLKDIV0_USB(x)      (((x)-1) << CLK_CLKDIV0_USBDIV_Pos)  /*!< CLKDIV0 Setting for USB clock divider. It could be 1~16 */
@@ -171,7 +171,7 @@ extern "C"
 
 
 /*---------------------------------------------------------------------------------------------------------*/
-/*  CLKDIV1 constant definitions.                                                                           */
+/*  CLKDIV1 constant definitions.                                                                          */
 /*---------------------------------------------------------------------------------------------------------*/
 #define CLK_CLKDIV1_SC0(x)      (((x)-1) << CLK_CLKDIV1_SC0DIV_Pos)  /*!< CLKDIV1 Setting for SC0 clock divider. It could be 1~16 */
 #define CLK_CLKDIV1_SC1(x)      (((x)-1) << CLK_CLKDIV1_SC1DIV_Pos)  /*!< CLKDIV1 Setting for SC1 clock divider. It could be 1~16 */
@@ -419,7 +419,7 @@ __STATIC_INLINE uint32_t CLK_GetPLLClockFreq(void)
   * @brief      This function execute delay function.
   * @param[in]  us  Delay time. The Max value is 2^24 / CPU Clock(MHz). Ex:
   *                             72MHz => 233016us, 50MHz => 335544us,
-                                48MHz => 349525us, 28MHz => 699050us ...
+  *                             48MHz => 349525us, 28MHz => 699050us ...
   * @return     None
   * @details    Use the SysTick to generate the delay time and the UNIT is in us.
   *             The SysTick clock source is from HCLK, i.e the same as system core clock.
