@@ -675,3 +675,31 @@ label:
 # endif
 #endif
 
+
+/**
+ * @brief    This function is called by Hardfault handler.
+ * @param    None
+ * @returns  None
+ * @details  This function is called by Hardfault handler and check if it is caused by __BKPT or not.
+ *
+ */
+#if defined( __ICCARM__ )
+__WEAK
+#else
+__attribute__((weak))
+#endif
+uint32_t ProcessHardFault(uint32_t lr, uint32_t msp, uint32_t psp)
+{
+    
+    while(1){}
+    
+}
+
+
+int32_t SH_Return(int32_t n32In_R0, int32_t n32In_R1, int32_t *pn32Out_R0)
+{
+    (void)n32In_R0;
+    (void)n32In_R1;
+    (void)pn32Out_R0;
+    return 0;
+}

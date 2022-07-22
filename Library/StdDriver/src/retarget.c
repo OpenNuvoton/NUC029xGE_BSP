@@ -67,7 +67,7 @@ void __aeabi_assert(const char* expr, const char* file, int line)
 
 
 #else
-# if defined(__ARMCC_VERSION) && (__ARMCC_VERSION >= 6018000)
+# if defined(__ARMCC_VERSION) && (__ARMCC_VERSION >= 6180000)
 __asm("  .global __ARM_use_no_argv\n");
 //__asm("  .global __use_no_semihosting\n");
 
@@ -121,7 +121,7 @@ void _sys_exit(int return_code)
     (void) return_code;
     while(1);
 }
-# elif defined(__ARMCC_VERSION) && (__ARMCC_VERSION >= 5060000)
+# elif defined(__ARMCC_VERSION) && (__ARMCC_VERSION == 5060000)
 
 void __use_no_semihosting(void)
 {}
