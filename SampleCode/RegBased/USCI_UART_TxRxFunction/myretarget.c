@@ -31,8 +31,13 @@ struct __FILE
     int handle; /* Add whatever you need here */
 };
 #endif
+
+#if defined(__ICCARM__) && (__VER__ < 8042001)
+
 FILE __stdout;
 FILE __stdin;
+
+#endif
 
 enum { r0, r1, r2, r3, r12, lr, pc, psr};
 
