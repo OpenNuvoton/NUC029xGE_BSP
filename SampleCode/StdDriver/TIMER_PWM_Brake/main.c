@@ -121,7 +121,7 @@ int main(void)
     /* Change Timer to PWM counter mode */
     TPWM_ENABLE_PWM_MODE(TIMER0);
 
-    /* Set PWM mode as independent mode*/
+    /* Set PWM mode as independent mode */
     TPWM_ENABLE_INDEPENDENT_MODE(TIMER0);
 
     /* Set PWM up count type */

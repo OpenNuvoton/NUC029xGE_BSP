@@ -327,7 +327,7 @@ int32_t main(void)
             if(--u32TimeOutCnt == 0)
             {
                 printf("Wait for PWM1 channel 2 Timer start to count time-out!\n");
-                return -1;
+                goto lexit;
             }
         }
 
@@ -335,7 +335,7 @@ int32_t main(void)
         PWM1->CAPINEN |= PWM_CAPINEN_CAPINEN2_Msk;
 
         /* Capture the Input Waveform Data */
-        if( CalPeriodTime() < 0 ) return -1;
+        if( CalPeriodTime() < 0 ) goto lexit;
         /*---------------------------------------------------------------------------------------------------------*/
         /* Stop PWM1 channel 0 (Recommended procedure method 1)                                                    */
         /* Set PWM Timer loaded value(Period) as 0. When PWM internal counter(CNT) reaches to 0, disable PWM Timer */
@@ -351,7 +351,7 @@ int32_t main(void)
             if(--u32TimeOutCnt == 0)
             {
                 printf("Wait for PWM1 channel 0 Timer Stop time-out!\n");
-                return -1;
+                goto lexit;
             }
         }
 
@@ -376,7 +376,7 @@ int32_t main(void)
             if(--u32TimeOutCnt == 0)
             {
                 printf("Wait for PWM1 channel 2 current counter reach to 0 time-out!\n");
-                return -1;
+                goto lexit;
             }
         }
 
@@ -391,4 +391,8 @@ int32_t main(void)
         PWM1->CAPIF = PWM_CAPIF_CFLIF2_Msk;
 
     }
+
+lexit:
+
+    while(1);
 }

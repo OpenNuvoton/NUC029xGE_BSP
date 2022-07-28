@@ -525,7 +525,7 @@ int32_t main(void)
         if(--u32TimeOutCnt == 0)
         {
             printf("Wait for PDMA transfer done time-out!\n");
-            return -1;
+            goto lexit;
         }
     }
     g_u32IsTestOver = 0;
@@ -546,6 +546,7 @@ int32_t main(void)
     else
         printf("Master write data to Slave(PDMA RX) pass...\n");
 
+lexit:
 
     s_I2C0HandlerFn = NULL;
     s_I2C1HandlerFn = NULL;

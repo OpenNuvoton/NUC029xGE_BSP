@@ -11,15 +11,15 @@
 #include "NUC029xGE.h"
 
 
-#define PLLCON_SETTING  CLK_PLLCTL_72MHz_HXT
+#define PLLCTL_SETTING  CLK_PLLCTL_72MHz_HXT
 #define PLL_CLOCK       72000000
 
 
 /*---------------------------------------------------------------------------------------------------------*/
 /* Global Interface Variables Declarations                                                                 */
 /*---------------------------------------------------------------------------------------------------------*/
-extern void SRAM_BS616LV4017(uint32_t u32MaxSize);
-void AccessEBIWithPDMA(void);
+extern int32_t SRAM_BS616LV4017(uint32_t u32MaxSize);
+int32_t AccessEBIWithPDMA(void);
 
 void Configure_EBI_16BIT_Pins(void)
 {
@@ -91,7 +91,7 @@ void SYS_Init(void)
     CLK->PWRCTL |= CLK_PWRCTL_HXTEN_Msk;
 
     /* Enable PLL and Set PLL frequency */
-    CLK->PLLCTL = PLLCON_SETTING;
+    CLK->PLLCTL = PLLCTL_SETTING;
 
     /* Waiting for clock ready */
     while(!(CLK->STATUS & CLK_STATUS_PLLSTB_Msk));
@@ -182,18 +182,20 @@ int main(void)
     EBI->TCTL0 = 0x03003318;
 
     /* Start SRAM test */
-    SRAM_BS616LV4017(512 * 1024);
+    if( SRAM_BS616LV4017(512 * 1024) < 0) goto lexit;
 
     /* EBI sram with PDMA test */
-    AccessEBIWithPDMA();
+    if( AccessEBIWithPDMA() < 0) goto lexit;
+
+    printf("*** SRAM Test OK ***\n");
+
+lexit:
 
     /* Disable EBI function */
     EBI->CTL0 &= ~EBI_CTL_EN_Msk;
 
     /* Disable EBI clock */
     CLK->AHBCLK &= ~CLK_AHBCLK_EBICKEN_Msk;
-
-    printf("*** SRAM Test OK ***\n");
 
     while(1);
 }
@@ -236,10 +238,11 @@ void PDMA_IRQHandler(void)
         printf("unknown interrupt !!\n");
 }
 
-void AccessEBIWithPDMA(void)
+int32_t AccessEBIWithPDMA(void)
 {
     uint32_t i;
     uint32_t u32Result0 = 0x5A5A, u32Result1 = 0x5A5A;
+    uint32_t u32TimeOutCnt = 0;
 
     printf("[[ Access EBI with PDMA ]]\n");
 
@@ -272,7 +275,15 @@ void AccessEBIWithPDMA(void)
 
     u32IsTestOver = 0;
     PDMA->SWREQ = (1 << 2);
-    while(u32IsTestOver == 0);
+    u32TimeOutCnt = SystemCoreClock; /* 1 second time-out */
+    while(u32IsTestOver == 0)
+    {
+        if(--u32TimeOutCnt == 0)
+        {
+            printf("Wait for PDMA time-out!\n");
+            return -1;
+        }
+    }
     /* Transfer internal SRAM to EBI SRAM done */
 
     /* Clear internal SRAM data */
@@ -299,7 +310,15 @@ void AccessEBIWithPDMA(void)
 
     u32IsTestOver = 0;
     PDMA->SWREQ = (1 << 2);
-    while(u32IsTestOver == 0);
+    u32TimeOutCnt = SystemCoreClock; /* 1 second time-out */
+    while(u32IsTestOver == 0)
+    {
+        if(--u32TimeOutCnt == 0)
+        {
+            printf("Wait for PDMA time-out!\n");
+            return -1;
+        }
+    }
     /* Transfer EBI SRAM to internal SRAM done */
     for(i = 0; i < 64; i++)
     {
@@ -315,16 +334,18 @@ void AccessEBIWithPDMA(void)
         else
         {
             printf("        FAIL - data matched (0x%X)\n\n", u32Result0);
-            while(1);
+            return -1;
         }
     }
     else
     {
         printf("        PDMA fail\n\n");
-        while(1);
+        return -1;
     }
 
     PDMA->CHCTL = 0;
+
+    return 0;
 }
 
 /*** (C) COPYRIGHT 2016 Nuvoton Technology Corp. ***/

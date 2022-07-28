@@ -118,7 +118,7 @@ int main(void)
     TPWM_ENABLE_PWM_MODE(TIMER2);
     TPWM_ENABLE_PWM_MODE(TIMER3);
 
-    /* Set PWM mode as independent mode*/
+    /* Set PWM mode as independent mode */
     TPWM_ENABLE_INDEPENDENT_MODE(TIMER0);
     TPWM_ENABLE_INDEPENDENT_MODE(TIMER1);
     TPWM_ENABLE_INDEPENDENT_MODE(TIMER2);

@@ -278,7 +278,7 @@ int main(void)
     SC0_ResetReader();
 
     /* Activation sequence generator */
-    if( SC0_ActivationCmd() < 0 ) return -1;
+    if( SC0_ActivationCmd() < 0 ) goto lexit;
 
     u32TimeOutCnt = SC_TIMEOUT;
     while(1)
@@ -299,6 +299,8 @@ int main(void)
             break;
         }
     }
+
+lexit:
 
     while(1);
 }
