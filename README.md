@@ -36,10 +36,13 @@ This BSP folder
 	CCID (Circuit card interface device) sample code for smart card interface.
 
 - Hard\_Fault\_Sample<br>
-	Show hard fault information when hard fault happened. The hard fault handler show some information included program counter, which is the address where the processor was executing when the hard fault occur. The listing file (or map file) can show what function and instruction that was. It also shows the Link Register (LR), which contains the return address of the last function call. It can show the status where CPU comes from to get to this point. 
+	Show hard fault information when hard fault happened. The hard fault handler show some information included program counter, which is the address where the processor was executing when the hard fault occur. The listing file (or map file) can show what function and instruction that was. It also shows the Link Register (LR), which contains the return address of the last function call. It can show the status where CPU comes from to get to this point.
 
 - ISP<br>
 	Sample codes for In-System-Programming.
+
+- NuMaker<br>
+	Simple demo for NuMaker board to show message from UART0 to ICE VCOM and show LED.
 
 - Semihost<br>
 	Show how to print and get character through IDE console window.
