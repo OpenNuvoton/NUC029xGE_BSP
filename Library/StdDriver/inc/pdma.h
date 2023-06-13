@@ -86,6 +86,12 @@ extern "C"
 #define PDMA_UART1_RX       0x00000007UL            /*!<DMA Connect to UART1 RX  \hideinitializer */
 #define PDMA_UART2_TX       0x00000008UL            /*!<DMA Connect to UART2 TX  \hideinitializer */
 #define PDMA_UART2_RX       0x00000009UL            /*!<DMA Connect to UART2 RX  \hideinitializer */
+#define PDMA_USCI0_TX       0x0000000AUL            /*!<DMA Connect to USCI0 TX  \hideinitializer */
+#define PDMA_USCI0_RX       0x0000000BUL            /*!<DMA Connect to USCI0 RX  \hideinitializer */
+#define PDMA_USCI1_TX       0x0000000CUL            /*!<DMA Connect to USCI1 TX  \hideinitializer */
+#define PDMA_USCI1_RX       0x0000000DUL            /*!<DMA Connect to USCI1 RX  \hideinitializer */
+#define PDMA_USCI2_TX       0x0000000EUL            /*!<DMA Connect to USCI2 TX  \hideinitializer */
+#define PDMA_USCI2_RX       0x0000000FUL            /*!<DMA Connect to USCI2 RX  \hideinitializer */
 #define PDMA_SPI0_TX        0x00000010UL            /*!<DMA Connect to SPI0 TX  \hideinitializer */
 #define PDMA_SPI0_RX        0x00000011UL            /*!<DMA Connect to SPI0 RX  \hideinitializer */
 #define PDMA_SPI1_TX        0x00000012UL            /*!<DMA Connect to SPI1 TX  \hideinitializer */

@@ -15930,6 +15930,24 @@ typedef struct
      * |        |          |It is cleared by software writes 1 to this bit
      * |        |          |0 = A transmit buffer under-run event has not been detected.
      * |        |          |1 = A transmit buffer under-run event has been detected.
+     * @var USPI_T::PDMACTL
+     * Offset: 0x40  USCI PDMA Control Register
+     * ---------------------------------------------------------------------------------------------------
+     * |Bits    |Field     |Descriptions
+     * | :----: | :----:   | :---- |
+     * |[0]     |PDMARST   |PDMA Reset
+     * |        |          |0 = No effect.
+     * |        |          |1 = Reset the USCI's PDMA control logic. This bit will be cleared to 0 automatically.
+     * |[1]     |TXPDMAEN  |PDMA Transmit Channel Available
+     * |        |          |0 = Transmit PDMA function Disabled.
+     * |        |          |1 = Transmit PDMA function Enabled.
+     * |[2]     |RXPDMAEN  |PDMA Receive Channel Available
+     * |        |          |0 = Receive PDMA function Disabled.
+     * |        |          |1 = Receive PDMA function Enabled.
+     * |[3]     |PDMAEN    |PDMA Mode Enable Bit
+     * |        |          |0 = PDMA function Disabled.
+     * |        |          |1 = PDMA function Enabled.
+     * |        |          |Notice: The I2C is not supporting PDMA function.
      * @var USPI_T::WKCTL
      * Offset: 0x54  USCI Wake-up Control Register
      * ---------------------------------------------------------------------------------------------------
@@ -16110,7 +16128,8 @@ typedef struct
     __I  uint32_t RXDAT;                 /*!< [0x0034] USCI Receive Data Register                                       */
     __IO uint32_t BUFCTL;                /*!< [0x0038] USCI Transmit/Receive Buffer Control Register                    */
     __IO uint32_t BUFSTS;                /*!< [0x003c] USCI Transmit/Receive Buffer Status Register                     */
-    __I  uint32_t RESERVE3[5];
+    __IO uint32_t PDMACTL;               /*!< [0x0040] USCI PDMA Control Register                                       */
+    __I  uint32_t RESERVE3[4];
     __IO uint32_t WKCTL;                 /*!< [0x0054] USCI Wake-up Control Register                                    */
     __IO uint32_t WKSTS;                 /*!< [0x0058] USCI Wake-up Status Register                                     */
     __IO uint32_t PROTCTL;               /*!< [0x005c] USCI Protocol Control Register                                   */
@@ -16228,6 +16247,18 @@ typedef struct
 
 #define USPI_BUFSTS_TXUDRIF_Pos          (11)                                              /*!< USPI_T::BUFSTS: TXUDRIF Position       */
 #define USPI_BUFSTS_TXUDRIF_Msk          (0x1ul << USPI_BUFSTS_TXUDRIF_Pos)                /*!< USPI_T::BUFSTS: TXUDRIF Mask           */
+
+#define USPI_PDMACTL_PDMARST_Pos         (0)                                               /*!< USPI_T::PDMACTL: PDMARST Position      */
+#define USPI_PDMACTL_PDMARST_Msk         (0x1ul << USPI_PDMACTL_PDMARST_Pos)               /*!< USPI_T::PDMACTL: PDMARST Mask          */
+
+#define USPI_PDMACTL_TXPDMAEN_Pos        (1)                                               /*!< USPI_T::PDMACTL: TXPDMAEN Position     */
+#define USPI_PDMACTL_TXPDMAEN_Msk        (0x1ul << USPI_PDMACTL_TXPDMAEN_Pos)              /*!< USPI_T::PDMACTL: TXPDMAEN Mask         */
+
+#define USPI_PDMACTL_RXPDMAEN_Pos        (2)                                               /*!< USPI_T::PDMACTL: RXPDMAEN Position     */
+#define USPI_PDMACTL_RXPDMAEN_Msk        (0x1ul << USPI_PDMACTL_RXPDMAEN_Pos)              /*!< USPI_T::PDMACTL: RXPDMAEN Mask         */
+
+#define USPI_PDMACTL_PDMAEN_Pos          (3)                                               /*!< USPI_T::PDMACTL: PDMAEN Position       */
+#define USPI_PDMACTL_PDMAEN_Msk          (0x1ul << USPI_PDMACTL_PDMAEN_Pos)                /*!< USPI_T::PDMACTL: PDMAEN Mask           */
 
 #define USPI_WKCTL_WKEN_Pos              (0)                                               /*!< USPI_T::WKCTL: WKEN Position           */
 #define USPI_WKCTL_WKEN_Msk              (0x1ul << USPI_WKCTL_WKEN_Pos)                    /*!< USPI_T::WKCTL: WKEN Mask               */
