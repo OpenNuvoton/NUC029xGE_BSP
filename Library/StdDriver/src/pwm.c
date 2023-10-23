@@ -6,8 +6,8 @@
  * @brief    NUC029xGE series PWM driver source file
  *
  * @note
- * SPDX-License-Identifier: Apache-2.0
- * Copyright (C) 2016 Nuvoton Technology Corp. All rights reserved.
+ * @copyright SPDX-License-Identifier: Apache-2.0
+ * @copyright Copyright (C) 2016 Nuvoton Technology Corp. All rights reserved.
 *****************************************************************************/
 #include "NUC029xGE.h"
 
@@ -154,9 +154,9 @@ uint32_t PWM_ConfigOutputChannel(PWM_T *pwm, uint32_t u32ChannelNum, uint32_t u3
     PWM_SET_CMR(pwm, u32ChannelNum, u32DutyCycle * (u16CNR + 1) / 100);
 
     (pwm)->WGCTL0 = ((pwm)->WGCTL0 & ~((PWM_WGCTL0_PRDPCTL0_Msk | PWM_WGCTL0_ZPCTL0_Msk) << (u32ChannelNum << 1))) | \
-                    (PWM_OUTPUT_HIGH << (u32ChannelNum << 1 + PWM_WGCTL0_ZPCTL0_Pos));
+                    (PWM_OUTPUT_HIGH << (u32ChannelNum << 1 << PWM_WGCTL0_ZPCTL0_Pos));
     (pwm)->WGCTL1 = ((pwm)->WGCTL1 & ~((PWM_WGCTL1_CMPDCTL0_Msk | PWM_WGCTL1_CMPUCTL0_Msk) << (u32ChannelNum << 1))) | \
-                    (PWM_OUTPUT_LOW << (u32ChannelNum << 1 + PWM_WGCTL1_CMPUCTL0_Pos));
+                    (PWM_OUTPUT_LOW << (u32ChannelNum << 1 << PWM_WGCTL1_CMPUCTL0_Pos));
 
     return(i);
 }

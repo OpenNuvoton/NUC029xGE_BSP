@@ -42,17 +42,17 @@
 		<link>
 			<name>CMSIS/CMSIS</name>
 			<type>2</type>
-			<locationURI>copy_PARENT/Library/Device/Nuvoton/NUC029xGE/Source</locationURI>
+			<locationURI>PARENT-4-PROJECT_LOC/Library/Device/Nuvoton/NUC029xGE/Source</locationURI>
 		</link>
 		<link>
 			<name>Library/Library</name>
 			<type>2</type>
-			<locationURI>copy_PARENT/Library/StdDriver/src</locationURI>
+			<locationURI>PARENT-4-PROJECT_LOC/Library/StdDriver/src</locationURI>
 		</link>
 		<link>
 			<name>User/main.c</name>
 			<type>1</type>
-			<locationURI>copy_PARENT1/main.c</locationURI>
+			<locationURI>PARENT-1-PROJECT_LOC/main.c</locationURI>
 		</link>
 	</linkedResources>
 	<filteredResources>
@@ -111,14 +111,4 @@
 			</matcher>
 		</filter>
 	</filteredResources>
-	<variableList>
-		<variable>
-			<name>copy_PARENT</name>
-			<value>file:/D:/MCU/NUC1261_FA8273/NUC029xGE/nuc029xgebsp</value>
-		</variable>
-		<variable>
-			<name>copy_PARENT1</name>
-			<value>$%7Bcopy_PARENT%7D/SampleCode/NuMaker/Blinky</value>
-		</variable>
-	</variableList>
 </projectDescription>

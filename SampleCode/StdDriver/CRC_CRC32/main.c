@@ -5,7 +5,8 @@
  * $Date: 16/10/25 4:28p $
  * @brief    Implement CRC in CRC-32 mode with PDMA transfer.
  * @note
- * Copyright (C) 2016 Nuvoton Technology Corp. All rights reserved.
+ * @copyright SPDX-License-Identifier: Apache-2.0
+ * @copyright Copyright (C) 2016 Nuvoton Technology Corp. All rights reserved.
  ******************************************************************************/
 #include <stdio.h>
 #include "NUC029xGE.h"
@@ -186,16 +187,16 @@ int main(void)
     {
         if((u32FMCChecksum == 0) || (u32FMCChecksum == 0xFFFFFFFF))
         {
-            printf("\n[Get checksum ... WRONG]");
+            printf("\n[Get checksum ... WRONG]\n");
         }
         else
         {
-            printf("\n[Compare checksum ... PASS]");
+            printf("\n[Compare checksum ... PASS]\n");
         }
     }
     else
     {
-        printf("\n[Compare checksum ... WRONG]");
+        printf("\n[Compare checksum ... WRONG]\n");
     }
 
     /* Disable CRC function */

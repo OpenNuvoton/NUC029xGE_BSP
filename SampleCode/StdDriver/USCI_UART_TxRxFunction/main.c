@@ -7,8 +7,9 @@
  *           Transmit and receive data from PC terminal through RS232 interface.
  *
  * @note
- * Copyright (C) 2016 Nuvoton Technology Corp. All rights reserved.
+ * @copyright SPDX-License-Identifier: Apache-2.0
  *
+ * @copyright Copyright (C) 2016 Nuvoton Technology Corp. All rights reserved.
  ******************************************************************************/
 #include "stdio.h"
 #include "NUC029xGE.h"
@@ -34,7 +35,8 @@ volatile int32_t g_bWait         = TRUE;
 int32_t main(void);
 void USCI_UART_TEST_HANDLE(void);
 void USCI_UART_FunctionTest(void);
-
+void ProcessHardFault(void);
+void ProcessHardFault(void){}
 
 void SYS_Init(void)
 {
