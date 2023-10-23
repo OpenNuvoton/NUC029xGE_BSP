@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>CRC_CRC8</name>
+	<name>CRC_CRC32</name>
 	<comment></comment>
 	<projects>
 	</projects>
@@ -108,15 +108,6 @@
 			<matcher>
 				<id>org.eclipse.ui.ide.multiFilter</id>
 				<arguments>1.0-name-matches-false-false-ebi.c</arguments>
-			</matcher>
-		</filter>
-		<filter>
-			<id>1529389469596</id>
-			<name>Library/Library</name>
-			<type>5</type>
-			<matcher>
-				<id>org.eclipse.ui.ide.multiFilter</id>
-				<arguments>1.0-name-matches-false-false-fmc.c</arguments>
 			</matcher>
 		</filter>
 		<filter>

@@ -7,8 +7,9 @@
  *           Change duty cycle of output waveform by configured period.
  *
  * @note
- * Copyright (C) 2016 Nuvoton Technology Corp. All rights reserved.
+ * @copyright SPDX-License-Identifier: Apache-2.0
  *
+ * @copyright Copyright (C) 2016 Nuvoton Technology Corp. All rights reserved.
  ******************************************************************************/
 #include <stdio.h>
 #include "NUC029xGE.h"
@@ -176,7 +177,7 @@ int32_t main(void)
     printf("  This sample code will use PWM0 channel 0 to output waveform, and switch duty cycle.\n");
     printf("  I/O configuration:\n");
     printf("    waveform output pin: PWM0 channel 0(PC.0)\n");
-    printf("\nOutput waveform is 1800000Hz and it's duty is 50%.\n");
+    printf("\nOutput waveform is 1800000Hz and it's duty is 50%%.\n");
 
     /*
       Configure PWM0 channel 0 init period and duty(up counter type).

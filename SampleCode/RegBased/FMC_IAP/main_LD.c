@@ -6,8 +6,9 @@
  * @brief    Show how to call LDROM functions from APROM.
  *           The code in APROM will look up the table at 0x100E00 to get the address of function of LDROM and call the function.
  * @note
- * Copyright (C) 2016 Nuvoton Technology Corp. All rights reserved.
+ * @copyright SPDX-License-Identifier: Apache-2.0
  *
+ * @copyright Copyright (C) 2016 Nuvoton Technology Corp. All rights reserved.
  ******************************************************************************/
 #include <stdio.h>
 #include "NUC029xGE.h"
@@ -22,10 +23,13 @@
 
 #define FUN_TBL_BASE        0x00100E00
 
+void ProcessHardFault(void){};
+
 int32_t IAP_Func0(int32_t n);
 int32_t IAP_Func1(int32_t n);
 int32_t IAP_Func2(int32_t n);
 int32_t IAP_Func3(int32_t n);
+
 
 #if defined ( __ICCARM__ )
 # pragma location = "FunTblSection" /* The location of FunTblSection is defined in FMC_IAP_LD.icf file. */
@@ -33,6 +37,11 @@ __root const uint32_t g_funcTable[4] =
 {
     (uint32_t)IAP_Func0, (uint32_t)IAP_Func1, (uint32_t)IAP_Func2, (uint32_t)IAP_Func3
 } ;
+#elif defined ( __GNUC__ )
+const uint32_t __attribute__((section (".IAPFunTable"))) g_funcTable[4] =
+{
+    (uint32_t)IAP_Func0, (uint32_t)IAP_Func1, (uint32_t)IAP_Func2, (uint32_t)IAP_Func3
+};
 #else
 __attribute__((at(FUN_TBL_BASE))) const uint32_t g_funcTable[4] =
 {
