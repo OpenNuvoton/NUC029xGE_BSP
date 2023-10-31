@@ -64,7 +64,10 @@ void SYS_Init(void)
     /* Init I/O Multi-function                                                                                 */
     /*---------------------------------------------------------------------------------------------------------*/
 
-    /* Set PC multi-function pins for USCI0_DAT0(PC.0) and USCI0_DAT1(PC.1) */
+    /*
+        Set PC multi-function pins for USCI0_DAT0(PC.0)(debug port UART_RXD)
+                                       USCI0_DAT1(PC.1)(debug port UART_TXD)
+    */
     SYS->GPC_MFPL = (SYS->GPC_MFPL & (~SYS_GPC_MFPL_PC0MFP_Msk)) | SYS_GPC_MFPL_PC0MFP_USCI0_DAT0;
     SYS->GPC_MFPL = (SYS->GPC_MFPL & (~SYS_GPC_MFPL_PC1MFP_Msk)) | SYS_GPC_MFPL_PC1MFP_USCI0_DAT1;
 }
