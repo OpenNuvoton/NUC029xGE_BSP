@@ -37,6 +37,11 @@ __root const uint32_t g_funcTable[4] =
 {
     (uint32_t)IAP_Func0, (uint32_t)IAP_Func1, (uint32_t)IAP_Func2, (uint32_t)IAP_Func3
 } ;
+#elif defined (__ARMCC_VERSION)
+const uint32_t * __attribute__((section(".ARM.__at_0x00100E00"))) g_funcTable[4] =
+{
+    (uint32_t *)IAP_Func0, (uint32_t *)IAP_Func1, (uint32_t *)IAP_Func2, (uint32_t *)IAP_Func3
+};
 #elif defined ( __GNUC__ )
 const uint32_t __attribute__((section (".IAPFunTable"))) g_funcTable[4] =
 {

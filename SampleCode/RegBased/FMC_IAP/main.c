@@ -98,6 +98,9 @@ void UART0_Init(void)
 }
 
 
+#if defined ( __ICCARM__ )
+#pragma optimize=low
+#endif
 void FMC_LDROM_Test(void)
 {
     int32_t  i32Err;
@@ -230,7 +233,7 @@ int32_t main(void)
         }
     }
 
-    printf("Do you want to write LDROM code to 0x100000\n");
+    printf("Do you want to write LDROM code to 0x100000 (y/n)?\n");
 
     if(getchar() == 'y')
     {
