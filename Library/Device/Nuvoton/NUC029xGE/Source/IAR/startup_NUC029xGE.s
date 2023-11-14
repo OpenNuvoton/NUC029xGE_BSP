@@ -22,6 +22,7 @@
     SECTION .intvec:CODE:NOROOT(2);; 4 bytes alignment
 
     EXTERN  SystemInit  
+    EXTERN  ProcessHardFault
     EXTERN  __iar_program_start
     PUBLIC  __vector_table
 
@@ -70,7 +71,7 @@ __vector_table
     DCD     Default_Handler             ; Reserved                                         
     DCD     USCI_IRQHandler             ; USCI interrupt
     DCD     USBD_IRQHandler             ; USBD interrupt
-    DCD     SC01_IRCHandler             ; SC0 and SC1 interrupt
+    DCD     SC01_IRQHandler             ; SC0 and SC1 interrupt
     DCD     ACMP01_IRQHandler           ; ACMP0/1 interrupt
     DCD     PDMA_IRQHandler             ; PDMA interrupt
     DCD     Default_Handler             ; Reserved
@@ -94,6 +95,15 @@ Reset_Handler
         BX       R0
 
     PUBWEAK HardFault_Handler
+HardFault_Handler\
+
+        MOV     R0, LR
+        MRS     R1, MSP
+        MRS     R2, PSP
+        LDR     R3, =ProcessHardFault
+        BLX     R3
+        BX      R0
+
     PUBWEAK NMI_Handler       
     PUBWEAK SVC_Handler       
     PUBWEAK PendSV_Handler    
@@ -118,7 +128,7 @@ Reset_Handler
     PUBWEAK I2C1_IRQHandler
 	PUBWEAK USCI_IRQHandler
     PUBWEAK USBD_IRQHandler
-	PUBWEAK SC01_IRCHandler
+    PUBWEAK SC01_IRQHandler
     PUBWEAK ACMP01_IRQHandler 
     PUBWEAK PDMA_IRQHandler
     PUBWEAK PWRWU_IRQHandler  
@@ -128,7 +138,7 @@ Reset_Handler
     
     SECTION .text:CODE:REORDER:NOROOT(2)
     
-HardFault_Handler 
+;HardFault_Handler 
 NMI_Handler       
 SVC_Handler       
 PendSV_Handler    
@@ -153,7 +163,7 @@ I2C0_IRQHandler
 I2C1_IRQHandler
 USCI_IRQHandler
 USBD_IRQHandler
-SC01_IRCHandler
+SC01_IRQHandler
 ACMP01_IRQHandler
 PDMA_IRQHandler
 PWRWU_IRQHandler
@@ -187,11 +197,6 @@ SH_HardFault                ; Captured by HardFault
     MOVS   R0,#0            ; Set return value to 0
     BX     lr               ; Return
     
-    
-    PUBLIC    __PC
-__PC          
-        MOV     r0, lr
-        BLX     lr    
     
     END
 
