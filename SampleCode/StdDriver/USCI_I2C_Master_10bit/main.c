@@ -28,7 +28,7 @@ volatile uint8_t g_u8MstEndFlag = 0;
 volatile uint8_t g_u8MstDataLen;
 
 
-enum UI2C_MASTER_EVENT m_Event;
+volatile enum UI2C_MASTER_EVENT m_Event;
 typedef void (*UI2C_FUNC)(uint32_t u32Status);
 
 static volatile UI2C_FUNC s_UI2C0HandlerFn = NULL;
@@ -359,6 +359,8 @@ int32_t Read_Write_SLAVE(uint16_t slvaddr)
 /*---------------------------------------------------------------------------------------------------------*/
 int main()
 {
+    int32_t i32Ret1, i32Ret2;
+
     /* Unlock protected registers */
     SYS_UnlockReg();
 
@@ -386,7 +388,6 @@ int main()
     printf("Configure UI2C0 as a master, UI2C1 as Slave.\n");
     printf("The I/O connection for UI2C0:\n");
     printf("UI2C0_SDA(PC.5), UI2C0_SCL(PC.4)\n");
-    printf("UI2C1_SDA(PD.14), UI2C1_SCL(PD.15)\n");
 
     /* Init USCI_I2C0 bus baud rate */
     UI2C0_Init(100000);
@@ -394,15 +395,25 @@ int main()
     /* Master Access Slave with no address mask */
     printf("\n");
     printf(" == No Mask Address ==\n");
-    Read_Write_SLAVE(0x116);
-    Read_Write_SLAVE(0x136);
-    printf("SLAVE Address test OK.\n");
+    if (0 > (i32Ret1 = Read_Write_SLAVE(0x116)))
+        printf("SLAVE Address(0x116) test FAIL.\n");
+        
+    if (0 > (i32Ret2 = Read_Write_SLAVE(0x136)))
+        printf("SLAVE Address(0x136) test FAIL.\n");
+
+    if ((i32Ret1 == 0) && (i32Ret2 == 0))
+        printf("SLAVE Address test OK.\n");
     /* Master Access Slave with address mask */
     printf("\n");
     printf(" == Mask Address ==\n");
-    Read_Write_SLAVE(0x116 & ~0x04);
-    Read_Write_SLAVE(0x136 & ~0x02);
-    printf("SLAVE Address Mask test OK.\n");
+    if (0 > (i32Ret1 = Read_Write_SLAVE(0x116 & ~0x04)))
+        printf("SLAVE Address Mask(0x112) test FAIL.\n");
+
+    if (0 > (i32Ret2 = Read_Write_SLAVE(0x136 & ~0x02)))
+        printf("SLAVE Address Mask(0x134) test FAIL.\n");    
+
+    if ((i32Ret1 == 0) && (i32Ret2 == 0))
+        printf("SLAVE Address Mask test OK.\n");
 
     while(1);
 }
