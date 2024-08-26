@@ -18,6 +18,11 @@
 
 void SYS_Init(void)
 {
+	uint32_t u32TimeOutCnt;
+
+	uint32_t u32TimeOutCnt;
+
+
     int32_t i;
     /*---------------------------------------------------------------------------------------------------------*/
     /* Init System Clock                                                                                       */
@@ -119,4 +124,3 @@ int main(void)
 }
 
 /*** (C) COPYRIGHT 2016 Nuvoton Technology Corp. ***/
-
