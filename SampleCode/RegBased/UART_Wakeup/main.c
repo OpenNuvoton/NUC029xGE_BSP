@@ -55,8 +55,6 @@ void SYS_Init(void)
 {
 	uint32_t u32TimeOutCnt;
 
-	uint32_t u32TimeOutCnt;
-
 
 
     /* Set PF multi-function pins for X32_OUT(PF.0) and X32_IN(PF.1) */
