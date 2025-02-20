@@ -8,7 +8,7 @@
  * @copyright Copyright (C) 2016 Nuvoton Technology Corp. All rights reserved.
  ******************************************************************************/
 #include "targetdev.h"
-#include "ISP_USER.h"
+#include "isp_user.h"
 
 // Supports 128K/256K (APROM)
 uint32_t GetApromSize()

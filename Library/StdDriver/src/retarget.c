@@ -4,7 +4,7 @@
  * @brief    Debug Port and Semihost Setting Source File
  *
  * @copyright SPDX-License-Identifier: Apache-2.0
- * @copyright Copyright (C) 2016 Nuvoton Technology Corp. All rights reserved.
+ * @copyright Copyright (C) 2023 Nuvoton Technology Corp. All rights reserved.
  ******************************************************************************/
 
 
@@ -27,121 +27,6 @@
 /*---------------------------------------------------------------------------------------------------------*/
 /* Global variables                                                                                        */
 /*---------------------------------------------------------------------------------------------------------*/
-#ifdef __MICROLIB
-FILE __stdout;
-FILE __stdin;
-
-void abort(void);
-
-__attribute__((weak))
-void abort(void)
-{
-    for(;;);
-}
-
-__attribute__((weak, noreturn))
-void __aeabi_assert(const char* expr, const char* file, int line)
-{
-    char str[12], * p;
-
-    fputs("*** assertion failed: ", stderr);
-    fputs(expr, stderr);
-    fputs(", file ", stderr);
-    fputs(file, stderr);
-    fputs(", line ", stderr);
-
-    p = str + sizeof(str);
-    *--p = '\0';
-    *--p = '\n';
-    while(line > 0)
-    {
-        *--p = '0' + (line % 10);
-        line /= 10;
-    }
-    fputs(p, stderr);
-
-    abort();
-    
-    while(1){}
-}
-
-
-#else
-# if defined(__ARMCC_VERSION) && (__ARMCC_VERSION >= 6180000)
-__asm("  .global __ARM_use_no_argv\n");
-//__asm("  .global __use_no_semihosting\n");
-
-/* IO device file handles. */
-#define FH_STDIN    0x8001
-#define FH_STDOUT   0x8002
-#define FH_STDERR   0x8003
-
-int32_t _sys_open (const char *name, int openmode)
-{
-  (void)openmode;
- 
-  if (name == NULL) {
-    return (-1);
-  }
- 
-  if (name[0] == ':') {
-    if (strcmp(name, ":STDIN") == 0) {
-      return (FH_STDIN);
-    }
-    if (strcmp(name, ":STDOUT") == 0) {
-      return (FH_STDOUT);
-    }
-    if (strcmp(name, ":STDERR") == 0) {
-      return (FH_STDERR);
-    }
-    return (-1);
-  }
-}
-
-void _sys_exit(int return_code)__attribute__((noreturn));
-void _sys_exit(int return_code)
-{
-    (void) return_code;
-    while(1);
-}
-
-
-#elif defined(__ARMCC_VERSION) && (__ARMCC_VERSION >= 6010050)
-__asm("  .global __ARM_use_no_argv\n");
-__asm("  .global __use_no_semihosting\n");
-
-
-FILE __stdout;
-FILE __stdin;
-FILE __stderr;
-
-void _sys_exit(int return_code)__attribute__((noreturn));
-void _sys_exit(int return_code)
-{
-    (void) return_code;
-    while(1);
-}
-# elif defined(__ARMCC_VERSION) && (__ARMCC_VERSION == 5060000)
-
-void __use_no_semihosting(void)
-{}
-
-void __ARM_use_no_argv(void)
-{}
-
-FILE __stdout;
-FILE __stdin;
-FILE __stderr;
-
-void _sys_exit(int return_code)__attribute__((noreturn));
-void _sys_exit(int return_code)
-{
-    (void) return_code;
-    while(1);
-}
-# endif
-#endif
-
 #if !(defined(__ICCARM__) && (__VER__ >= 6010000))
 # if (__ARMCC_VERSION < 6040000)
 struct __FILE
@@ -154,12 +39,9 @@ struct __FILE
 {
     int handle; /* Add whatever you need here */
 };
-
-#ifndef FILE
-#define FILE    struct __FILE
 #endif
-
-#endif
+FILE __stdout;
+FILE __stdin;
 
 
 #if (defined(__ARMCC_VERSION) || defined(__ICCARM__))
@@ -173,6 +55,7 @@ __attribute__((weak))
 uint32_t ProcessHardFault(uint32_t lr, uint32_t msp, uint32_t psp);
 
 #endif 
+
 
 int kbhit(void);
 int IsDebugFifoEmpty(void);

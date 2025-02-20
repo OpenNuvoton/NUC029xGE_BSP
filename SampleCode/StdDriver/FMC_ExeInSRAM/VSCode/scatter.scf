@@ -1,0 +1,25 @@
+FLASH 0x00000000
+{
+    FLASH +0
+    {
+        startup_NUC029xGE.o(RESET, +First)
+        startup_NUC029xGE.o
+        system_NUC029xGE.o
+        anon$$obj.o
+        init.o
+        entry*.o
+        handlers.o
+    }
+
+    SRAM1 0x20000000
+    {
+        * (+RO,+RW)
+    }
+
+    ZI +0
+    {
+        *(+ZI)
+    }
+
+}
+
