@@ -17,4 +17,4 @@ solution:
       compiler: GCC
       device: Nuvoton::NUC029SGE
   projects:
-    - project: PDMA_SG_PPBuffer.cproject.yml
+    - project: PWM_DoubleBuffer_PeriodLoadingMode.cproject.yml
