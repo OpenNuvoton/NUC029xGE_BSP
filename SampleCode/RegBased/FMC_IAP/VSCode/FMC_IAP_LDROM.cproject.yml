@@ -7,11 +7,12 @@ project:
       ASM: [-D__MICROLIB]
       Link: [--library_type=microlib, --map, --load_addr_map_info, --symbols, --info sizes, --info totals, --entry Reset_Handler, --summary_stderr, --info summarysizes, --diag_suppress=6314]
     - for-compiler: GCC
-      C: [-std=gnu11, --specs=nano.specs, -Wall -Wno-format, -Wno-return-type, -Wno-unused-but-set-variable, -fdata-sections, -ffunction-sections, -fno-builtin,
+      C: [-std=gnu11, -Wall -Wno-format, -Wno-return-type, -Wno-unused-but-set-variable, -fdata-sections, -ffunction-sections, -fno-builtin,
           -fshort-enums, -funsigned-char, -mthumb, -Wno-main, -gdwarf-4, -flto]
       Link:
         - -Xlinker
         - --gc-sections
+        - --specs=nano.specs
         - -Wl,--gc-sections,-Map="$elf()$.map"
   linker:
       - for-compiler: GCC
@@ -40,10 +41,10 @@ project:
         - file: ../main_LD.c
   # The execute: node is processed only for an application build when no --context option is specified.
   executes:
-    - execute: Copy bin file
+    - execute: Copy_Bin_File
       run: ${CMAKE_COMMAND} -E copy $input$ $output$
       always:
       input:
         - $bin()$
       output:
-        - $SolutionDir()$/bin/fmc_ld_iap.bin
+        - $SolutionDir()$/bin/$TargetType$

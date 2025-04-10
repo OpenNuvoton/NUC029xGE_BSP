@@ -1,5 +1,5 @@
-#ifndef REGIONS_M071VG4AE_H
-#define REGIONS_M071VG4AE_H
+#ifndef REGIONS_NUC029SGE_H
+#define REGIONS_NUC029SGE_H
 
 
 //-------- <<< Use Configuration Wizard in Context Menu >>> --------------------
@@ -57,4 +57,4 @@
 // </h>
 
 
-#endif /* REGIONS_M071VG4AE_H */
+#endif /* REGIONS_NUC029SGE_H */

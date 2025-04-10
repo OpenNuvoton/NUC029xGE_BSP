@@ -9,5 +9,5 @@
     .global loaderImageLimit
     .align 4
 loaderImageBase:
-    .incbin     BINFILE
+    .incbin     "FMC_IAP_LDROM.bin"
 loaderImageLimit:
