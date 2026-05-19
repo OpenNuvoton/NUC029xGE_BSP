@@ -54,7 +54,7 @@ __attribute__((weak))
 #endif
 uint32_t ProcessHardFault(uint32_t lr, uint32_t msp, uint32_t psp);
 
-#endif 
+#endif
 
 
 int kbhit(void);
@@ -150,9 +150,9 @@ uint32_t ProcessHardFault(uint32_t lr, uint32_t msp, uint32_t psp)
     printf("pc  = 0x%x\n", sp[6]);
     printf("psr = 0x%x\n", sp[7]);
     */
-    
+
     while(1){}
-    
+
 }
 
 
@@ -174,7 +174,7 @@ int32_t SH_Return(int32_t n32In_R0, int32_t n32In_R1, int32_t *pn32Out_R0)
     {
         if(pn32Out_R0)
             *pn32Out_R0 = n32In_R0;
-        
+
         return 1;
     }
     return 0;
@@ -364,7 +364,7 @@ void SendChar(int ch)
         }
         else
         {
-# if (DEBUG_ENABLE_SEMIHOST == 2) // Re-direct to UART Debug Port only when DEBUG_ENABLE_SEMIHOST=2           
+# if (DEBUG_ENABLE_SEMIHOST == 2) // Re-direct to UART Debug Port only when DEBUG_ENABLE_SEMIHOST=2
             int i;
 
             for(i = 0; i < g_buf_len; i++)
@@ -513,6 +513,9 @@ int fputc(int ch, FILE *stream)
 #if (defined(__GNUC__) && !defined(__ARMCC_VERSION))
 
 #if !defined(OS_USE_SEMIHOSTING)
+
+#include <sys/stat.h>
+
 int _write (int fd, char *ptr, int len)
 {
     int i = len;
@@ -538,6 +541,48 @@ int _read (int fd, char *ptr, int len)
     return 1;
 
 
+}
+
+/* Add implementations to fix linker warnings from the newlib-nano C library in VSCode-GCC14.3.1 */
+int _close(int file)
+{
+    return -1;
+}
+
+int _lseek(int file, int ptr, int dir)
+{
+    return 0;
+}
+
+int _fstat(int file, struct stat *st)
+{
+    st->st_mode = S_IFCHR;
+    return 0;
+}
+
+int _isatty(int file)
+{
+    return 1;
+}
+
+int _kill(int pid, int sig)
+{
+    return -1;
+}
+
+int _getpid(void)
+{
+    return 1;
+}
+
+int _open(const char *path, int flags, int mode)
+{
+    return 1;
+}
+
+int _unlink(const char *path)
+{
+    return -1;
 }
 #endif
 
